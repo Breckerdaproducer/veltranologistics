@@ -176,7 +176,7 @@ async function generateAirWaybillPDF(shipment, products = [], settings = {}) {
   doc.fillColor('#475569').font('Helvetica').fontSize(6.8);
   doc.text('GLOBAL TELEMETRY FREIGHT DISPATCH \u2022 COMPUTERIZED AIR WAYBILL', 48, 70, { width: 260, lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(6.5);
-  doc.text(`Operations Desk: ${settings.phone || '+1 (915) 217-3598'}  |  HQ: 1204 Sunset Ave, Los Angeles, CA`, 48, 80, { width: 260, lineBreak: false });
+  doc.text(`Operations Desk: ${settings.phone || '+1 (915) 217-3598'}  |  HQ: USA`, 48, 80, { width: 260, lineBreak: false });
 
   const refX = 320;
   const refY = 32;
@@ -412,7 +412,7 @@ async function generateCommercialInvoicePDF(shipment, products = [], settings = 
   doc.fillColor('#475569').font('Helvetica').fontSize(6.8);
   doc.text('COMMERCIAL FREIGHT BILLING & CUSTOMS DECLARATION', 48, 70, { width: 260, lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(6.5);
-  doc.text(`Finance Operations: ${settings.phone || '+1 (915) 217-3598'}  |  HQ: 1204 Sunset Ave, Los Angeles, CA`, 48, 80, { width: 260, lineBreak: false });
+  doc.text(`Finance Operations: ${settings.phone || '+1 (915) 217-3598'}  |  HQ: USA`, 48, 80, { width: 260, lineBreak: false });
 
   const refX = 320;
   const refY = 32;
@@ -646,7 +646,7 @@ async function generateProofOfDeliveryPDF(shipment, checkpoint = {}, settings = 
   doc.fillColor('#065f46').font('Helvetica').fontSize(6.8);
   doc.text('GLOBAL CONSIGNMENT TELEMETRY \u2022 OFFICIAL PROOF OF DELIVERY', 48, 70, { width: 260, lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(6.5);
-  doc.text(`Operations Desk: ${settings.phone || '+1 (915) 217-3598'}  |  HQ: 1204 Sunset Ave, Los Angeles, CA`, 48, 80, { width: 260, lineBreak: false });
+  doc.text(`Operations Desk: ${settings.phone || '+1 (915) 217-3598'}  |  HQ: USA`, 48, 80, { width: 260, lineBreak: false });
 
   const refX = 320;
   const refY = 32;

@@ -170,7 +170,7 @@ function buildCleanEmailHTML({ title, subtitle, bodyContent, companyInfo, action
           <tr>
             <td style="background-color: #ffffff; padding: 20px 32px; border-top: 1px solid #e2e8f0; font-size: 11.5px; line-height: 1.6; color: #64748b;">
               <p style="margin: 0;">
-                <strong>Nexivan Logistics Inc.</strong> &bull; ${companyInfo.address || '1204 Sunset Ave, Los Angeles, CA'}
+                <strong>Nexivan Logistics Inc.</strong> &bull; ${companyInfo.address || 'USA'}
               </p>
               <p style="margin: 4px 0 0;">
                 Support: <a href="sms:${(companyInfo.phone || '').replace(/[^+\d]/g, '')}" style="color: #0284c7; text-decoration: none;">${companyInfo.phone}</a> &bull; 

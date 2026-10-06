@@ -135,7 +135,7 @@ async function initDB() {
         phone VARCHAR(100) NOT NULL DEFAULT '+1 (915) 217-3598',
         whatsapp VARCHAR(100) NOT NULL DEFAULT '+1 (915) 217-3598',
         whatsapp_raw VARCHAR(100) NOT NULL DEFAULT '19152173598',
-        address TEXT NOT NULL DEFAULT '1204 Sunset Ave, Los Angeles, CA',
+        address TEXT NOT NULL DEFAULT 'USA',
         working_hours VARCHAR(255) NOT NULL DEFAULT 'Mon - Sat: 8:00 AM - 7:00 PM',
         updated_at TIMESTAMPTZ DEFAULT NOW()
       );
@@ -153,7 +153,7 @@ async function initDB() {
     if (settingsCheck.rows.length === 0) {
       await client.query(`
         INSERT INTO company_settings (id, email, phone, whatsapp, whatsapp_raw, address, working_hours)
-        VALUES (1, 'info@nexivanlogistics.com', '+1 (915) 217-3598', '+1 (915) 217-3598', '19152173598', '1204 Sunset Ave, Los Angeles, CA', 'Mon - Sat: 8:00 AM - 7:00 PM')
+        VALUES (1, 'info@nexivanlogistics.com', '+1 (915) 217-3598', '+1 (915) 217-3598', '19152173598', 'USA', 'Mon - Sat: 8:00 AM - 7:00 PM')
         ON CONFLICT (id) DO NOTHING;
       `);
       console.log('[DB Seed] Default company contact settings seeded.');
@@ -193,7 +193,7 @@ async function initDB() {
           weight, quantity, shipment_date, estimated_delivery_date, notes, comment
         ) VALUES (
           'TRK-89201', 'Atlas Precision Tools Ltd', '+1 (555) 234-5678', 'shipping@atlasprecision.com', '742 Evergreen Blvd, Chicago, IL',
-          'Pacific Crest Distribution', '+1 (915) 217-3598', 'receiving@pacificcrest.com', '1204 Sunset Ave, Los Angeles, CA',
+          'Pacific Crest Distribution', '+1 (915) 217-3598', 'receiving@pacificcrest.com', 'USA',
           'Chicago, IL, USA', 'Los Angeles, CA, USA', 'Denver Sorting Facility, CO', 'In Transit', 'Air Freight', 'Commercial Electronics',
           'Precision Optical & Electronic Sensors', 'Air Freight', 'Prepaid', '$1,850.00 USD', '2026-09-10', '09:30 AM',
           '42.5 kg', 3, $1, $2, 'Fragile - Temperature controlled air transit', 'Fragile electronic instruments. Handle with extreme care. Keep dry and secured.'

@@ -6,7 +6,7 @@ const DEFAULT_SETTINGS = {
   phone: '+1 (915) 217-3598',
   whatsapp: '+1 (915) 217-3598',
   whatsapp_raw: '19152173598',
-  address: '1204 Sunset Ave, Los Angeles, CA',
+  address: '',
   working_hours: 'Mon - Sat: 8:00 AM - 7:00 PM',
 };
 
@@ -123,7 +123,7 @@ async function updateSettings(req, res) {
     // Default fallbacks if empty or omitted
     if (!address) {
       const existing = await query('SELECT address FROM company_settings WHERE id = 1 LIMIT 1');
-      address = (existing.rows[0] && existing.rows[0].address) || '1204 Sunset Ave, Los Angeles, CA';
+      address = (existing.rows[0] && existing.rows[0].address) || 'USA';
     }
     if (!working_hours) {
       const existing = await query('SELECT working_hours FROM company_settings WHERE id = 1 LIMIT 1');

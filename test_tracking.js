@@ -64,7 +64,7 @@ async function run() {
   console.log('\n=== TEST 6: Receiver Address Pinpointing on TRK-89201 ===');
   console.log('Inline Card Map Header:', r1.body.includes('Live Delivery Destination Map'));
   console.log('Inline Card Live Pin Badge:', r1.body.includes('Live Receiver Pin'));
-  console.log('Inline Receiver Delivery Address:', r1.body.includes('1204 Sunset Ave, Los Angeles, CA'));
+  console.log('Inline Receiver Delivery Address:', r1.body.includes('USA'));
   console.log('Bottom Section Map Iframe:', r1.body.includes('id="nexivan-receiver-map-iframe"'));
   console.log('Bottom Section Consignee:', r1.body.includes('Pacific Crest Distribution'));
   console.log('Both Maps Target Los Angeles:', (r1.body.match(/1204%20Sunset%20Ave%2C%20Los%20Angeles%2C%20CA/g) || []).length >= 1);
