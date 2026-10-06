@@ -1,5 +1,6 @@
 const { query } = require('../config/db');
 const { sendShipmentCreationEmail, sendShipmentStatusUpdate } = require('../services/emailService');
+const { batchGeocodeShipment } = require('../services/geocodingService');
 
 /**
  * Compute progress percentage from status
@@ -68,6 +69,7 @@ async function trackShipment(req, res) {
       [shipment.id]
     );
     const products = prodRes.rows;
+    const geocoded = await batchGeocodeShipment(shipment);
 
     return res.json({
       success: true,
@@ -90,6 +92,9 @@ async function trackShipment(req, res) {
         origin: shipment.origin,
         destination: shipment.destination,
         currentLocation: shipment.current_location,
+        originCoordinates: geocoded.originCoordinates,
+        destinationCoordinates: geocoded.destinationCoordinates,
+        currentCoordinates: geocoded.currentCoordinates,
         shipmentDate: shipment.shipment_date,
         estimatedDeliveryDate: shipment.estimated_delivery_date,
         expectedDeliveryDate: shipment.estimated_delivery_date,

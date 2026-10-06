@@ -261,17 +261,77 @@
       'mexico': [19.4326, -99.1332]
     };
 
+    // Disambiguated city + state pairs (Cities sharing identical names in multiple states)
+    const DISAMBIGUATED_CITIES = {
+      'dallas, ga': [33.9237, -84.8408],
+      'dallas, georgia': [33.9237, -84.8408],
+      'dallas, tx': [32.7767, -96.7970],
+      'dallas, texas': [32.7767, -96.7970],
+      'springfield, il': [39.7817, -89.6501],
+      'springfield, mo': [37.2090, -93.2923],
+      'columbus, oh': [39.9612, -82.9988],
+      'columbus, ga': [32.4610, -84.9877],
+      'portland, or': [45.5152, -122.6784],
+      'portland, me': [43.6591, -70.2568],
+      'kansas city, mo': [39.0997, -94.5786],
+      'kansas city, ks': [39.1155, -94.6268],
+      'arlington, tx': [32.7357, -97.1081],
+      'arlington, va': [38.8799, -77.1067]
+    };
+
+    const ZIP3_COORDS = {
+      '300': [33.95, -84.30], // GA
+      '301': [33.95, -84.85], // Dallas GA
+      '750': [33.02, -96.70], // TX
+      '752': [32.85, -96.80], // Dallas TX
+    };
+
     function resolveCoords(str, fallback) {
-      if (!str) return fallback;
-      const lower = str.toLowerCase();
+      if (!str || typeof str !== 'string') return fallback;
+      const raw = str.trim();
+      const lower = raw.toLowerCase();
+      const clean = ' ' + lower.replace(/[^a-z0-9]/g, ' ') + ' ';
+
+      // 1. Disambiguated city + state
+      for (const [pair, coords] of Object.entries(DISAMBIGUATED_CITIES)) {
+        const [c, s] = pair.split(', ');
+        if (clean.includes(' ' + c + ' ') && clean.includes(' ' + s + ' ')) {
+          return coords;
+        }
+      }
+
+      // 2. ZIP-3
+      const zipMatch = raw.match(/\b(\d{5})\b/);
+      if (zipMatch && ZIP3_COORDS[zipMatch[1].substring(0, 3)]) {
+        return ZIP3_COORDS[zipMatch[1].substring(0, 3)];
+      }
+
+      // 3. City list (avoid matching Dallas if state is GA)
       for (const [key, coords] of Object.entries(CITY_COORDS)) {
-        if (lower.includes(key)) return coords;
+        if (clean.includes(' ' + key + ' ')) {
+          if (key === 'dallas' && (clean.includes(' ga ') || clean.includes(' georgia '))) {
+            return [33.9237, -84.8408];
+          }
+          return coords;
+        }
       }
       return fallback;
     }
 
-    const originCoords = resolveCoords(originCity, [41.8781, -87.6298]);
-    const destCoords = resolveCoords(destCity, [34.0522, -118.2437]);
+    const originFull = ((s.shipper && s.shipper.address) || s.shipper_address || s.origin || '').trim();
+    const destFull = ((s.receiver && s.receiver.address) || s.receiver_address || s.destination || '').trim();
+
+    let originCoords = (Array.isArray(s.originCoordinates) && s.originCoordinates.length === 2 && !isNaN(s.originCoordinates[0]))
+      ? [Number(s.originCoordinates[0]), Number(s.originCoordinates[1])]
+      : resolveCoords(originFull || originCity, [41.8781, -87.6298]);
+
+    let destCoords = (Array.isArray(s.destinationCoordinates) && s.destinationCoordinates.length === 2 && !isNaN(s.destinationCoordinates[0]))
+      ? [Number(s.destinationCoordinates[0]), Number(s.destinationCoordinates[1])]
+      : resolveCoords(destFull || destCity, [34.0522, -118.2437]);
+
+    if (Math.hypot(originCoords[0] - destCoords[0], originCoords[1] - destCoords[1]) < 0.005) {
+      destCoords = [destCoords[0] + 0.08, destCoords[1] + 0.08];
+    }
 
     let currentCoords;
     if (progress >= 100 || statusLower.includes('delivered')) {

@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const { initDB, query } = require('./config/db');
 const { renderTrackingSuccessHTML, renderTrackingNotFoundHTML } = require('./services/trackingRenderer');
+const { geocodeAddress, batchGeocodeShipment } = require('./services/geocodingService');
 const { parseContactPayload } = require('./controllers/contactController');
 const { sendContactNotification, sendContactAutoReply } = require('./services/emailService');
 
@@ -47,6 +48,27 @@ app.use('/api/search', searchRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use(['/api/settings', '/api/setting'], settingsRoutes);
+
+// Public Geocoding Endpoint
+app.get('/api/geocode', async (req, res) => {
+  try {
+    const q = (req.query.q || req.query.address || '').trim();
+    if (!q) {
+      return res.status(400).json({ success: false, message: 'Address query parameter is required.' });
+    }
+    const coords = await geocodeAddress(q);
+    return res.json({
+      success: true,
+      query: q,
+      coordinates: coords,
+      latitude: coords[0],
+      longitude: coords[1],
+    });
+  } catch (err) {
+    console.error('[Geocode API Error]', err);
+    return res.status(500).json({ success: false, message: 'Failed to geocode address.' });
+  }
+});
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -272,7 +294,8 @@ app.get(['/track', '/track-shipment', '/tracking'], async (req, res) => {
         [shipment.id]
       );
       shipment.products = prodRes.rows;
-      resultCardHTML = renderTrackingSuccessHTML(shipment, cpRes.rows);
+      const geocodedShipment = await batchGeocodeShipment(shipment);
+      resultCardHTML = renderTrackingSuccessHTML(geocodedShipment, cpRes.rows);
     } else {
       resultCardHTML = renderTrackingNotFoundHTML(cleanNum);
     }
