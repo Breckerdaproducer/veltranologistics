@@ -11,8 +11,8 @@
     </linearGradient>
 
     <linearGradient id="vanAccent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="100%" stop-color="#0284c7"/>
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
     </linearGradient>
 
     <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -38,7 +38,7 @@
 
     <!-- Front Windshield -->
     <path d="M 80 18 L 96 26 L 80 26 Z" fill="url(#glassGrad)"/>
-    <line x1="82" y1="20" x2="94" y2="25" stroke="#38bdf8" stroke-width="0.8" opacity="0.6"/>
+    <line x1="82" y1="20" x2="94" y2="25" stroke="#34d399" stroke-width="0.8" opacity="0.6"/>
 
     <!-- Side Cab Window -->
     <rect x="68" y="18" width="10" height="9" rx="1.5" fill="url(#glassGrad)"/>

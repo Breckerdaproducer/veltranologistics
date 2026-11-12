@@ -2,7 +2,7 @@ const { query } = require('../config/db');
 
 const DEFAULT_SETTINGS = {
   id: 1,
-  email: 'info@nexivanlogistics.com',
+  email: 'info@veltranologistics.site',
   phone: '+1 (915) 217-3598',
   whatsapp: '+1 (915) 217-3598',
   whatsapp_raw: '19152173598',
@@ -12,7 +12,7 @@ const DEFAULT_SETTINGS = {
 
 /**
  * Public Endpoint: GET /api/settings
- * Used by frontend nexivan-api.js to dynamically hydrate contact points across the entire site
+ * Used by frontend veltrano-api.js to dynamically hydrate contact points across the entire site
  */
 async function getPublicSettings(req, res) {
   try {

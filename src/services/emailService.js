@@ -10,10 +10,10 @@ require('dotenv').config();
 let transporter = null;
 
 /**
- * Nexivan Logistics Logo for email service
+ * Veltrano Logistics Logo for email service
  */
-const NEXIVAN_LOGO_URL = 'https://nexivanlogistics.com/assets/images/nexivan-logo.svg';
-const NEXIVAN_LOGO_SVG = `<img src="https://nexivanlogistics.com/assets/images/nexivan-logo.svg" alt="Nexivan Logistics" width="180" height="37" style="display: block; width: 180px; height: auto; max-height: 37px; border: 0; outline: none; text-decoration: none;" />`;
+const VELTRANO_LOGO_URL = 'https://veltranologistics.site/assets/images/veltrano-logo.svg';
+const VELTRANO_LOGO_SVG = `<img src="https://veltranologistics.site/assets/images/veltrano-logo.svg" alt="Veltrano Logistics" width="180" height="37" style="display: block; width: 180px; height: auto; max-height: 37px; border: 0; outline: none; text-decoration: none;" />`;
 
 async function getCompanyContactInfo() {
   try {
@@ -21,7 +21,7 @@ async function getCompanyContactInfo() {
     if (res.rows.length > 0) return res.rows[0];
   } catch (e) {}
   return {
-    email: process.env.ADMIN_NOTIFY_EMAIL || 'info@nexivanlogistics.com',
+    email: process.env.ADMIN_NOTIFY_EMAIL || 'info@veltranologistics.site',
     phone: '',
     whatsapp: '',
     address: 'United States',
@@ -96,12 +96,12 @@ function getClientRecipients(shipment) {
  * Unified, clean email layout wrapper:
  * - Pure white background (#ffffff)
  * - Deep black / slate-900 text (#0f172a)
- * - Subtle primary color (#0284c7) accents
+ * - Subtle primary color (#059669) accents
  * - Clean logo in the header
  * - Unified responsive typography and footer
  */
 function buildCleanEmailHTML({ title, subtitle, bodyContent, companyInfo, actionButton = null }) {
-  const appUrl = (process.env.APP_URL || 'https://nexivanlogistics.com').replace(/\/$/, '');
+  const appUrl = (process.env.APP_URL || 'https://veltranologistics.site').replace(/\/$/, '');
 
 
   return `
@@ -126,7 +126,7 @@ function buildCleanEmailHTML({ title, subtitle, bodyContent, companyInfo, action
                 <tr>
                   <td align="left" style="vertical-align: middle;">
                     <a href="${appUrl}" target="_blank" style="text-decoration: none; display: inline-block;">
-                      ${NEXIVAN_LOGO_SVG}
+                      ${VELTRANO_LOGO_SVG}
                     </a>
                   </td>
                   <td align="right" style="vertical-align: middle; font-size: 11px; font-weight: 600; color: #64748b; letter-spacing: 0.5px; text-transform: uppercase;">
@@ -158,7 +158,7 @@ function buildCleanEmailHTML({ title, subtitle, bodyContent, companyInfo, action
 
               ${actionButton ? `
                 <div style="margin: 28px 0 8px; text-align: left;">
-                  <a href="${actionButton.url}" target="_blank" style="background-color: #0284c7; color: #ffffff; font-size: 13.5px; font-weight: 600; text-decoration: none; padding: 11px 22px; border-radius: 6px; display: inline-block;">
+                  <a href="${actionButton.url}" target="_blank" style="background-color: #059669; color: #ffffff; font-size: 13.5px; font-weight: 600; text-decoration: none; padding: 11px 22px; border-radius: 6px; display: inline-block;">
                     ${actionButton.text} &rarr;
                   </a>
                 </div>
@@ -170,15 +170,15 @@ function buildCleanEmailHTML({ title, subtitle, bodyContent, companyInfo, action
           <tr>
             <td style="background-color: #ffffff; padding: 20px 32px; border-top: 1px solid #e2e8f0; font-size: 11.5px; line-height: 1.6; color: #64748b;">
               <p style="margin: 0;">
-                <strong>Nexivan Logistics Inc.</strong> &bull; ${companyInfo.address || 'USA'}
+                <strong>Veltrano Logistics Inc.</strong> &bull; ${companyInfo.address || 'USA'}
               </p>
               <p style="margin: 4px 0 0;">
-                Support: <a href="sms:${(companyInfo.phone || '').replace(/[^+\d]/g, '')}" style="color: #0284c7; text-decoration: none;">${companyInfo.phone}</a> &bull; 
-                <a href="mailto:${companyInfo.email}" style="color: #0284c7; text-decoration: none;">${companyInfo.email}</a> &bull; 
-                <a href="${appUrl}" style="color: #0284c7; text-decoration: none;">nexivanlogistics.com</a>
+                Support: <a href="sms:${(companyInfo.phone || '').replace(/[^+\d]/g, '')}" style="color: #059669; text-decoration: none;">${companyInfo.phone}</a> &bull; 
+                <a href="mailto:${companyInfo.email}" style="color: #059669; text-decoration: none;">${companyInfo.email}</a> &bull; 
+                <a href="${appUrl}" style="color: #059669; text-decoration: none;">veltranologistics.site</a>
               </p>
               <p style="margin: 8px 0 0; font-size: 11px; color: #94a3b8;">
-                &copy; 2020 Nexivan Logistics. All rights reserved. Automated dispatch telemetry notification.
+                &copy; 2020 Veltrano Logistics. All rights reserved. Automated dispatch telemetry notification.
               </p>
             </td>
           </tr>
@@ -208,8 +208,8 @@ async function sendContactNotification({ firstName, lastName, email, phone, mess
   if (companyInfo.email && companyInfo.email.includes('@')) {
     adminRecipients.add(companyInfo.email.trim());
   }
-  const toRecipients = adminRecipients.size > 0 ? Array.from(adminRecipients) : ['info@nexivanlogistics.com'];
-  const fromAddress = process.env.SMTP_FROM || `"Nexivan Logistics Alerts" <${companyInfo.email || 'info@nexivanlogistics.com'}>`;
+  const toRecipients = adminRecipients.size > 0 ? Array.from(adminRecipients) : ['info@veltranologistics.site'];
+  const fromAddress = process.env.SMTP_FROM || `"Veltrano Logistics Alerts" <${companyInfo.email || 'info@veltranologistics.site'}>`;
 
   const bodyContent = `
     <p style="margin-top: 0; font-size: 14px; color: #334155;">
@@ -224,7 +224,7 @@ async function sendContactNotification({ firstName, lastName, email, phone, mess
       </tr>
       <tr>
         <td style="padding: 10px 14px; font-size: 13px; font-weight: 600; color: #475569; border-bottom: 1px solid #f1f5f9;">Email Address:</td>
-        <td style="padding: 10px 14px; font-size: 13.5px; border-bottom: 1px solid #f1f5f9;"><a href="mailto:${email}" style="color: #0284c7; text-decoration: none;">${email}</a></td>
+        <td style="padding: 10px 14px; font-size: 13.5px; border-bottom: 1px solid #f1f5f9;"><a href="mailto:${email}" style="color: #059669; text-decoration: none;">${email}</a></td>
       </tr>
       <tr>
         <td style="padding: 10px 14px; font-size: 13px; font-weight: 600; color: #475569; border-bottom: 1px solid #f1f5f9;">Phone Number:</td>
@@ -237,7 +237,7 @@ async function sendContactNotification({ firstName, lastName, email, phone, mess
     </table>
 
     <!-- Message Box -->
-    <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 3px solid #0284c7; padding: 14px 16px; border-radius: 4px; margin: 18px 0;">
+    <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 3px solid #059669; padding: 14px 16px; border-radius: 4px; margin: 18px 0;">
       <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; color: #475569; display: block; margin-bottom: 6px;">Customer Inquiry:</span>
       <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: #0f172a; white-space: pre-line;">${message}</p>
     </div>
@@ -250,7 +250,7 @@ async function sendContactNotification({ firstName, lastName, email, phone, mess
     companyInfo,
     actionButton: {
       text: `Reply to ${email}`,
-      url: `mailto:${email}?subject=Re:%20Nexivan%20Logistics%20Inquiry`,
+      url: `mailto:${email}?subject=Re:%20Veltrano%20Logistics%20Inquiry`,
     },
   });
 
@@ -277,38 +277,38 @@ async function sendContactNotification({ firstName, lastName, email, phone, mess
 async function sendContactAutoReply({ firstName, email }) {
   const mailer = getTransporter();
   const companyInfo = await getCompanyContactInfo();
-  const fromAddress = process.env.SMTP_FROM || `"Nexivan Logistics Support" <${companyInfo.email}>`;
+  const fromAddress = process.env.SMTP_FROM || `"Veltrano Logistics Support" <${companyInfo.email}>`;
 
   const bodyContent = `
     <p style="margin-top: 0; font-size: 14px; color: #0f172a;">
       Dear <strong>${firstName}</strong>,
     </p>
     <p style="font-size: 14px; color: #334155;">
-      Thank you for contacting <strong>Nexivan Logistics</strong>. We have received your inquiry and our dispatch support team is currently reviewing your request.
+      Thank you for contacting <strong>Veltrano Logistics</strong>. We have received your inquiry and our dispatch support team is currently reviewing your request.
     </p>
     <p style="font-size: 14px; color: #334155;">
       A dedicated logistics representative will follow up with you within 2 to 4 business hours.
     </p>
 
     <!-- Support Details Box -->
-    <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 3px solid #0284c7; padding: 14px 16px; border-radius: 4px; margin: 20px 0;">
+    <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 3px solid #059669; padding: 14px 16px; border-radius: 4px; margin: 20px 0;">
       <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; color: #475569; display: block; margin-bottom: 6px;">Need Immediate Assistance?</span>
       <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #0f172a;">
         Our 24/7 Operations Desk is available directly:<br>
-        <strong>Phone:</strong> <a href="sms:${(companyInfo.phone || '').replace(/[^+\d]/g, '')}" style="color: #0284c7; text-decoration: none;">${companyInfo.phone}</a><br>
-        <strong>Email:</strong> <a href="mailto:${companyInfo.email}" style="color: #0284c7; text-decoration: none;">${companyInfo.email}</a>
+        <strong>Phone:</strong> <a href="sms:${(companyInfo.phone || '').replace(/[^+\d]/g, '')}" style="color: #059669; text-decoration: none;">${companyInfo.phone}</a><br>
+        <strong>Email:</strong> <a href="mailto:${companyInfo.email}" style="color: #059669; text-decoration: none;">${companyInfo.email}</a>
       </p>
     </div>
 
     <p style="margin-bottom: 0; font-size: 13.5px; color: #475569;">
       Warm regards,<br>
-      <strong style="color: #0f172a;">Nexivan Logistics Operations Team</strong>
+      <strong style="color: #0f172a;">Veltrano Logistics Operations Team</strong>
     </p>
   `;
 
   const html = buildCleanEmailHTML({
     title: 'Inquiry Received',
-    subtitle: 'Thank you for reaching out to Nexivan Logistics',
+    subtitle: 'Thank you for reaching out to Veltrano Logistics',
     bodyContent,
     companyInfo,
   });
@@ -317,8 +317,8 @@ async function sendContactAutoReply({ firstName, email }) {
     const info = await mailer.sendMail({
       from: fromAddress,
       to: email,
-      subject: 'Inquiry Received – Nexivan Logistics',
-      text: `Dear ${firstName},\n\nThank you for contacting Nexivan Logistics. We have received your message and our team will get back to you shortly.\n\nWarm regards,\nNexivan Logistics Team`,
+      subject: 'Inquiry Received – Veltrano Logistics',
+      text: `Dear ${firstName},\n\nThank you for contacting Veltrano Logistics. We have received your message and our team will get back to you shortly.\n\nWarm regards,\nVeltrano Logistics Team`,
       html,
     });
     return { success: true, messageId: info.messageId };
@@ -343,10 +343,10 @@ async function sendShipmentCreationEmail(shipment, products = []) {
   }
 
   const companyInfo = await getCompanyContactInfo();
-  const fromAddress = process.env.SMTP_FROM || `"Nexivan Logistics Dispatch" <${companyInfo.email}>`;
+  const fromAddress = process.env.SMTP_FROM || `"Veltrano Logistics Dispatch" <${companyInfo.email}>`;
   const trackingNo = shipment.tracking_number;
   const isDelivered = (shipment.status || '').toLowerCase() === 'delivered';
-  const appUrl = (process.env.APP_URL || 'https://nexivanlogistics.com').replace(/\/$/, '');
+  const appUrl = (process.env.APP_URL || 'https://veltranologistics.site').replace(/\/$/, '');
   const trackLink = `${appUrl}/track-shipment?tracking=${encodeURIComponent(trackingNo)}`;
 
   console.log(`[Email] Generating 2 official PDF attachments for consignment ${trackingNo}...`);
@@ -382,14 +382,14 @@ async function sendShipmentCreationEmail(shipment, products = []) {
       Dear <strong>${clientName}</strong>,
     </p>
     <p style="font-size: 14px; color: #334155;">
-      Your freight consignment has been registered and verified in the Nexivan Logistics Global Dispatch Network.
+      Your freight consignment has been registered and verified in the Veltrano Logistics Global Dispatch Network.
     </p>
 
     <!-- Waybill Key Details Box -->
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border: 1px solid #e2e8f0; border-radius: 6px; margin: 16px 0; background-color: #ffffff;">
       <tr>
         <td style="padding: 10px 14px; font-size: 12.5px; font-weight: 600; color: #475569; width: 40%; border-bottom: 1px solid #f1f5f9;">Waybill Number:</td>
-        <td style="padding: 10px 14px; font-size: 14px; font-weight: 700; font-family: monospace; color: #0284c7; border-bottom: 1px solid #f1f5f9;">${trackingNo}</td>
+        <td style="padding: 10px 14px; font-size: 14px; font-weight: 700; font-family: monospace; color: #059669; border-bottom: 1px solid #f1f5f9;">${trackingNo}</td>
       </tr>
       <tr>
         <td style="padding: 10px 14px; font-size: 12.5px; font-weight: 600; color: #475569; border-bottom: 1px solid #f1f5f9;">Route:</td>
@@ -414,7 +414,7 @@ async function sendShipmentCreationEmail(shipment, products = []) {
     </table>
 
     <!-- 2 PDF Attachments Note -->
-    <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 3px solid #0284c7; padding: 12px 16px; border-radius: 4px; margin: 18px 0;">
+    <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 3px solid #059669; padding: 12px 16px; border-radius: 4px; margin: 18px 0;">
       <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; color: #475569; display: block; margin-bottom: 4px;">Attached Official Documents (PDF):</span>
       <ul style="margin: 0; padding-left: 18px; font-size: 12.5px; color: #0f172a; line-height: 1.5;">
         <li><strong>Air Waybill (AWB):</strong> <code>AirWaybill_${trackingNo}.pdf</code></li>
@@ -438,7 +438,7 @@ async function sendShipmentCreationEmail(shipment, products = []) {
     const info = await mailer.sendMail({
       from: fromAddress,
       to: recipients,
-      subject: `Consignment Registered [Waybill #${trackingNo}] – Nexivan Logistics`,
+      subject: `Consignment Registered [Waybill #${trackingNo}] – Veltrano Logistics`,
       text: `Your consignment #${trackingNo} (${shipment.origin} -> ${shipment.destination}) has been registered. Track live: ${trackLink}. Official Air Waybill and Invoice attached.`,
       html,
       attachments,
@@ -466,11 +466,11 @@ async function sendShipmentStatusUpdate(shipment, checkpoint = {}, options = {})
   }
 
   const companyInfo = await getCompanyContactInfo();
-  const fromAddress = process.env.SMTP_FROM || `"Nexivan Logistics Dispatch" <${companyInfo.email}>`;
+  const fromAddress = process.env.SMTP_FROM || `"Veltrano Logistics Dispatch" <${companyInfo.email}>`;
   const trackingNo = shipment.tracking_number;
   const currentStatus = (checkpoint.status || shipment.status || 'In Transit').trim();
   const isDelivered = currentStatus.toLowerCase() === 'delivered';
-  const appUrl = (process.env.APP_URL || 'https://nexivanlogistics.com').replace(/\/$/, '');
+  const appUrl = (process.env.APP_URL || 'https://veltranologistics.site').replace(/\/$/, '');
   const trackLink = `${appUrl}/track-shipment?tracking=${encodeURIComponent(trackingNo)}`;
 
   // Build attachments based on status:
@@ -520,7 +520,7 @@ async function sendShipmentStatusUpdate(shipment, checkpoint = {}, options = {})
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border: 1px solid #e2e8f0; border-radius: 6px; margin: 16px 0; background-color: #ffffff;">
       <tr>
         <td style="padding: 10px 14px; font-size: 12.5px; font-weight: 600; color: #475569; width: 40%; border-bottom: 1px solid #f1f5f9;">Consignment:</td>
-        <td style="padding: 10px 14px; font-size: 13.5px; font-weight: 700; font-family: monospace; color: #0284c7; border-bottom: 1px solid #f1f5f9;">#${trackingNo}</td>
+        <td style="padding: 10px 14px; font-size: 13.5px; font-weight: 700; font-family: monospace; color: #059669; border-bottom: 1px solid #f1f5f9;">#${trackingNo}</td>
       </tr>
       <tr>
         <td style="padding: 10px 14px; font-size: 12.5px; font-weight: 600; color: #475569; border-bottom: 1px solid #f1f5f9;">Current Status:</td>
@@ -541,7 +541,7 @@ async function sendShipmentStatusUpdate(shipment, checkpoint = {}, options = {})
     </table>
 
     ${attachments.length > 0 ? `
-      <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 3px solid #0284c7; padding: 12px 16px; border-radius: 4px; margin: 18px 0;">
+      <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 3px solid #059669; padding: 12px 16px; border-radius: 4px; margin: 18px 0;">
         <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; color: #475569; display: block; margin-bottom: 4px;">Attached Document${attachments.length > 1 ? 's' : ''} (PDF):</span>
         <span style="font-size: 12.5px; color: #0f172a;">${attachments.map(a => `<code>${a.filename}</code>`).join(', ')}</span>
       </div>
@@ -586,17 +586,17 @@ async function sendShipmentStatusUpdate(shipment, checkpoint = {}, options = {})
 async function sendTestEmail(targetEmail) {
   const mailer = getTransporter();
   const companyInfo = await getCompanyContactInfo();
-  const fromAddress = process.env.SMTP_FROM || `"Nexivan Logistics" <${companyInfo.email || 'info@nexivanlogistics.com'}>`;
+  const fromAddress = process.env.SMTP_FROM || `"Veltrano Logistics" <${companyInfo.email || 'info@veltranologistics.site'}>`;
   const recipient = (targetEmail || 'whumobrianrinywe2@gmail.com').trim();
 
   const bodyContent = `
     <p style="margin-top: 0; font-size: 14.5px; color: #0f172a; line-height: 1.6;">
-      This is a <strong>system verification test email</strong> from the Nexivan Logistics automated dispatch engine.
+      This is a <strong>system verification test email</strong> from the Veltrano Logistics automated dispatch engine.
     </p>
 
     <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a; padding: 14px 18px; border-radius: 6px; margin: 20px 0;">
       <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; color: #15803d; display: block; margin-bottom: 4px;">SMTP Connection Verified</span>
-      <span style="font-size: 13.5px; color: #166534; font-weight: 600;">Your email service is active, authenticated, and successfully dispatching with the official Nexivan brand assets.</span>
+      <span style="font-size: 13.5px; color: #166534; font-weight: 600;">Your email service is active, authenticated, and successfully dispatching with the official Veltrano brand assets.</span>
     </div>
 
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border: 1px solid #e2e8f0; border-radius: 6px; margin: 16px 0; background-color: #ffffff;">
@@ -620,21 +620,21 @@ async function sendTestEmail(targetEmail) {
   `;
 
   const html = buildCleanEmailHTML({
-    title: 'Nexivan Dispatch — Email System Test',
+    title: 'Veltrano Dispatch — Email System Test',
     subtitle: 'System verification message with hosted SVG brand logo',
     bodyContent,
     companyInfo,
     actionButton: {
-      text: 'Visit Nexivan Logistics',
-      url: 'https://nexivanlogistics.com',
+      text: 'Visit Veltrano Logistics',
+      url: 'https://veltranologistics.site',
     },
   });
 
   const mailOptions = {
     from: fromAddress,
     to: recipient,
-    subject: `Nexivan Logistics — Email Service Test [${new Date().toLocaleTimeString()}]`,
-    text: `Nexivan Logistics Email Service Test\n\nThis is a system verification email sent to ${recipient}.\nSMTP Host: ${process.env.SMTP_HOST}\nTimestamp: ${new Date().toISOString()}`,
+    subject: `Veltrano Logistics — Email Service Test [${new Date().toLocaleTimeString()}]`,
+    text: `Veltrano Logistics Email Service Test\n\nThis is a system verification email sent to ${recipient}.\nSMTP Host: ${process.env.SMTP_HOST}\nTimestamp: ${new Date().toISOString()}`,
     html,
   };
 

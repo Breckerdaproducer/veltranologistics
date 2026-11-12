@@ -13,35 +13,36 @@ function streamToBuffer(doc) {
 }
 
 /**
- * Draw official Nexivan Vector Logo in PDFKit
+ * Draw official Veltrano Vector Logo in PDFKit
  * Self-contained vector paths and crisp typography
  */
-function drawNexivanLogo(doc, x, y, scale = 0.65) {
+function drawVeltranoLogo(doc, x, y, scale = 0.65) {
   doc.save();
   doc.translate(x, y);
   doc.scale(scale);
 
-  // 1. Left Pillar (Cyan to Blue)
-  doc.path('M6 52 L6 14 L20 6 L20 44 Z').fill('#0284c7');
+  // 1. Left Dynamic Arm (Cyan to Blue)
+  doc.path('M8 12 L22 12 L35 50 L21 50 Z').fill('#059669');
 
-  // 2. Dynamic Ribbon (Sky Blue)
-  doc.path('M20 6 L44 38 L44 54 L20 22 Z').fill('#06b6d4');
+  // 2. Right Fast Ascending Arm (Deep Blue)
+  doc.path('M29 50 L43 50 L58 12 L44 12 Z').fill('#047857');
 
-  // 3. Right Pillar (Deep Blue)
-  doc.path('M44 22 L44 54 L58 46 L58 8 Z').fill('#0369a1');
+  // 3. Central Aerodynamic Winglet (Sky Blue)
+  doc.path('M22 18 L33 42 L44 18 L33 26 Z').fill('#10b981');
 
-  // 4. Forward Accent Dart (White)
-  doc.path('M25 25 L38 35 L28 35 Z').fill('#ffffff');
+  // 4. Forward Speed Accent Dart (White)
+  doc.path('M30 18 L36 32 L31 30 Z').fill('#ffffff');
 
   doc.restore();
 
   // Typography beside mark
   const textX = x + Math.round(62 * scale);
   doc.save();
-  doc.fillColor('#0b1e36').font('Helvetica-Bold').fontSize(16).text('NEXIVAN', textX, y + 2, { lineBreak: false });
-  doc.fillColor('#0284c7').font('Helvetica-Bold').fontSize(7.5).text('LOGISTICS', textX + 1, y + 18, { lineBreak: false, characterSpacing: 2 });
+  doc.fillColor('#0b1e36').font('Helvetica-Bold').fontSize(16).text('VELTRANO', textX, y + 2, { lineBreak: false });
+  doc.fillColor('#059669').font('Helvetica-Bold').fontSize(7.5).text('LOGISTICS', textX + 1, y + 18, { lineBreak: false, characterSpacing: 2 });
   doc.restore();
 }
+const drawNexivanLogo = drawVeltranoLogo;
 
 /**
  * Draw carrier barcode representation
@@ -132,7 +133,7 @@ function drawPartyBox(doc, x, y, width, height, title, party) {
   doc.text(`Email: ${party.email || 'N/A'}`, x + 8, y + 70, { width: width - 16, lineBreak: false, ellipsis: true });
 
   // Station / Hub
-  doc.fillColor('#0284c7').font('Helvetica-Bold').fontSize(7);
+  doc.fillColor('#059669').font('Helvetica-Bold').fontSize(7);
   doc.text(`Hub / Facility: ${party.hub || 'N/A'}`, x + 8, y + 83, { width: width - 16, lineBreak: false, ellipsis: true });
 
   doc.restore();
@@ -172,7 +173,7 @@ async function generateAirWaybillPDF(shipment, products = [], settings = {}) {
   doc.rect(fX, fY, fW, fH).lineWidth(1.2).stroke('#0f172a');
 
   // ---------------- HEADER (y: 30 - 90) ----------------
-  drawNexivanLogo(doc, 48, 34, 0.65);
+  drawVeltranoLogo(doc, 48, 34, 0.65);
   doc.fillColor('#475569').font('Helvetica').fontSize(6.8);
   doc.text('GLOBAL TELEMETRY FREIGHT DISPATCH \u2022 COMPUTERIZED AIR WAYBILL', 48, 70, { width: 260, lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(6.5);
@@ -183,8 +184,8 @@ async function generateAirWaybillPDF(shipment, products = [], settings = {}) {
   const refW = 246;
   const refH = 58;
 
-  doc.rect(refX, refY, refW, refH).lineWidth(1).stroke('#0284c7');
-  doc.rect(refX, refY, refW, 16).fill('#0284c7');
+  doc.rect(refX, refY, refW, refH).lineWidth(1).stroke('#059669');
+  doc.rect(refX, refY, refW, 16).fill('#059669');
   doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(7.5).text('OFFICIAL AIR WAYBILL (AWB) & CONSIGNMENT NOTE', refX + 8, refY + 4, { lineBreak: false });
 
   doc.fillColor('#0b1e36').font('Courier-Bold').fontSize(13).text(trackingNo, refX + 8, refY + 22, { lineBreak: false });
@@ -196,7 +197,7 @@ async function generateAirWaybillPDF(shipment, products = [], settings = {}) {
   doc.rect(fX, 96, fW, 26).fill('#f1f5f9');
   doc.fillColor('#0f172a').font('Helvetica-Bold').fontSize(7.5);
   doc.text(`ORIGIN: ${origin}`, 48, 104, { width: 140, lineBreak: false, ellipsis: true });
-  doc.fillColor('#0284c7').text(`DESTINATION: ${destination}`, 192, 104, { width: 155, lineBreak: false, ellipsis: true });
+  doc.fillColor('#059669').text(`DESTINATION: ${destination}`, 192, 104, { width: 155, lineBreak: false, ellipsis: true });
   doc.fillColor('#0f172a').text(`STATUS: ${status}`, 352, 104, { width: 95, lineBreak: false, ellipsis: true });
   doc.fillColor('#059669').text(`EST. DELIVERY: ${etaDate}`, 452, 104, { width: 114, lineBreak: false, ellipsis: true });
 
@@ -240,7 +241,7 @@ async function generateAirWaybillPDF(shipment, products = [], settings = {}) {
   drawInfoCell(doc, 42, curY, colW, cellH, 'Total Gross Weight', shipment.weight || 'Standard Weight');
   drawInfoCell(doc, 42 + colW, curY, colW, cellH, 'Payment Mode', paymentMode);
   drawInfoCell(doc, 42 + colW * 2, curY, colW, cellH, 'Pickup Date & Time', `${pickupDate} ${pickupTime}`);
-  drawInfoCell(doc, 42 + colW * 3, curY, colW, cellH, 'Total Freight Charges', totalFreight, { color: '#0284c7', font: 'Helvetica-Bold', size: 9.5 });
+  drawInfoCell(doc, 42 + colW * 3, curY, colW, cellH, 'Total Freight Charges', totalFreight, { color: '#059669', font: 'Helvetica-Bold', size: 9.5 });
   curY += cellH + 8;
 
   // ---------------- ITEMIZED MANIFEST TABLE (y: 302 - 384) ----------------
@@ -298,7 +299,7 @@ async function generateAirWaybillPDF(shipment, products = [], settings = {}) {
   const remarksH = 36;
   doc.rect(42, curY, 534, remarksH).lineWidth(0.5).stroke('#cbd5e1');
   doc.rect(42, curY, 534, remarksH).fill('#f8fafc');
-  doc.rect(42, curY, 3, remarksH).fill('#0284c7');
+  doc.rect(42, curY, 3, remarksH).fill('#059669');
   doc.fillColor('#334155').font('Helvetica').fontSize(7.2);
   const remarksText = shipment.comment || shipment.notes || 'Consignment accepted in standard tamper-evident packaging. Handle with care. Climate controlled transport where applicable. Inspect seal integrity upon transfer.';
   doc.text(remarksText, 52, curY + 6, { width: 516, height: remarksH - 10, ellipsis: true });
@@ -316,15 +317,15 @@ async function generateAirWaybillPDF(shipment, products = [], settings = {}) {
   doc.rect(42, curY, signBoxW, 15).fill('#f8fafc');
   doc.fillColor('#0b1e36').font('Helvetica-Bold').fontSize(6.5).text('AUTHORIZED CARRIER DISPATCH OFFICER', 48, curY + 4, { lineBreak: false });
   doc.moveTo(50, curY + 50).lineTo(204, curY + 50).lineWidth(0.5).stroke('#94a3b8');
-  doc.fillColor('#0284c7').font('Helvetica-Bold').fontSize(7).text('Nexivan Operations Officer', 50, curY + 54, { lineBreak: false });
+  doc.fillColor('#059669').font('Helvetica-Bold').fontSize(7).text('Veltrano Operations Officer', 50, curY + 54, { lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(6).text(`Issued: ${currentDateStr}`, 50, curY + 63, { lineBreak: false });
 
   // 2. Official Seal Stamp
   const sealX = 223;
   doc.rect(sealX, curY, signBoxW, signBoxH).lineWidth(0.5).stroke('#cbd5e1');
-  doc.rect(sealX + 10, curY + 8, signBoxW - 20, signBoxH - 16).lineWidth(1).stroke('#0284c7');
-  doc.fillColor('#0284c7').font('Helvetica-Bold').fontSize(7).text('OFFICIAL VERIFICATION', sealX + 26, curY + 15, { lineBreak: false });
-  doc.fillColor('#0f172a').font('Helvetica-Bold').fontSize(6.5).text('NEXIVAN DISPATCH NETWORK', sealX + 18, curY + 28, { lineBreak: false });
+  doc.rect(sealX + 10, curY + 8, signBoxW - 20, signBoxH - 16).lineWidth(1).stroke('#059669');
+  doc.fillColor('#059669').font('Helvetica-Bold').fontSize(7).text('OFFICIAL VERIFICATION', sealX + 26, curY + 15, { lineBreak: false });
+  doc.fillColor('#0f172a').font('Helvetica-Bold').fontSize(6.5).text('VELTRANO DISPATCH NETWORK', sealX + 18, curY + 28, { lineBreak: false });
   doc.fillColor('#10b981').font('Helvetica-Bold').fontSize(6.5).text('AUTHENTIC CARRIER RECORD', sealX + 22, curY + 40, { lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(5.5).text(`ID: ${trackingNo}`, sealX + 38, curY + 52, { lineBreak: false });
 
@@ -348,7 +349,7 @@ async function generateAirWaybillPDF(shipment, products = [], settings = {}) {
 
   doc.fillColor('#0f172a').font('Helvetica-Bold').fontSize(7).text('COMPUTERIZED FREIGHT TELEMETRY ARCHIVE', 252, curY + 7, { lineBreak: false });
   doc.fillColor('#475569').font('Helvetica').fontSize(6.5);
-  doc.text(`Verify online: https://nexivanlogistics.com/track-shipment?tracking=${encodeURIComponent(trackingNo)}`, 252, curY + 18, { width: 310, lineBreak: false, ellipsis: true });
+  doc.text(`Verify online: https://veltranologistics.site/track-shipment?tracking=${encodeURIComponent(trackingNo)}`, 252, curY + 18, { width: 310, lineBreak: false, ellipsis: true });
   doc.text('This digital consignment record is registered and validated across all transit checkpoints.', 252, curY + 28, { width: 310, lineBreak: false });
   curY += barStripH + 10;
 
@@ -361,7 +362,7 @@ async function generateAirWaybillPDF(shipment, products = [], settings = {}) {
   doc.text(
     '1. Carriage hereunder is subject to the rules and limitations relating to liability established by the Warsaw or Montreal Convention.\n' +
     '2. The carrier declares that cargo accepted is subject to standard screening and security controls. Sender certifies that shipment contains no dangerous goods.\n' +
-    '3. Claims for damage or delay must be notified in writing within 14 days of receipt. All operations governed by Nexivan Standard Carriage Terms.',
+    '3. Claims for damage or delay must be notified in writing within 14 days of receipt. All operations governed by Veltrano Standard Carriage Terms.',
     48, curY + 16, { width: 522, lineGap: 3 }
   );
 
@@ -369,9 +370,9 @@ async function generateAirWaybillPDF(shipment, products = [], settings = {}) {
   const footY = fY + fH - 42;
   doc.rect(fX, footY, fW, 42).fill('#0f172a');
 
-  doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(7.5).text('NEXIVAN LOGISTICS \u2022 OFFICIAL AIR WAYBILL & FREIGHT CONSIGNMENT NOTE', 48, footY + 7, { lineBreak: false });
+  doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(7.5).text('VELTRANO LOGISTICS \u2022 OFFICIAL AIR WAYBILL & FREIGHT CONSIGNMENT NOTE', 48, footY + 7, { lineBreak: false });
   doc.fillColor('#94a3b8').font('Helvetica').fontSize(6.5);
-  doc.text(`Customer Service: ${settings.phone || '+1 (915) 217-3598'}  |  Email: ${settings.email || 'info@nexivanlogistics.com'}  |  Web: https://nexivanlogistics.com`, 48, footY + 19, { width: 516, lineBreak: false });
+  doc.text(`Customer Service: ${settings.phone || '+1 (915) 217-3598'}  |  Email: ${settings.email || 'info@veltranologistics.site'}  |  Web: https://veltranologistics.site`, 48, footY + 19, { width: 516, lineBreak: false });
   doc.text('CONFIDENTIAL CARRIER RECORD \u2022 FOR AUTHORIZED FREIGHT FORWARDING AND CUSTOMS PURPOSES ONLY', 48, footY + 29, { width: 516, lineBreak: false });
 
   doc.end();
@@ -408,7 +409,7 @@ async function generateCommercialInvoicePDF(shipment, products = [], settings = 
   doc.rect(fX, fY, fW, fH).lineWidth(1.2).stroke('#0b1e36');
 
   // Header
-  drawNexivanLogo(doc, 48, 34, 0.65);
+  drawVeltranoLogo(doc, 48, 34, 0.65);
   doc.fillColor('#475569').font('Helvetica').fontSize(6.8);
   doc.text('COMMERCIAL FREIGHT BILLING & CUSTOMS DECLARATION', 48, 70, { width: 260, lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(6.5);
@@ -419,8 +420,8 @@ async function generateCommercialInvoicePDF(shipment, products = [], settings = 
   const refW = 246;
   const refH = 58;
 
-  doc.rect(refX, refY, refW, refH).lineWidth(1).stroke('#0284c7');
-  doc.rect(refX, refY, refW, 16).fill('#0284c7');
+  doc.rect(refX, refY, refW, refH).lineWidth(1).stroke('#059669');
+  doc.rect(refX, refY, refW, 16).fill('#059669');
   doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(7.5).text('COMMERCIAL FREIGHT INVOICE', refX + 8, refY + 4, { lineBreak: false });
 
   doc.fillColor('#0b1e36').font('Courier-Bold').fontSize(13).text(invoiceNo, refX + 8, refY + 22, { lineBreak: false });
@@ -432,7 +433,7 @@ async function generateCommercialInvoicePDF(shipment, products = [], settings = 
   doc.rect(fX, 96, fW, 26).fill('#f1f5f9');
   doc.fillColor('#0b1e36').font('Helvetica-Bold').fontSize(7.5);
   doc.text(`WAYBILL REF: ${trackingNo}`, 48, 104, { width: 145, lineBreak: false, ellipsis: true });
-  doc.fillColor('#0284c7').text(`MODE: ${shipment.transport_mode || 'Road Freight'}`, 200, 104, { width: 120, lineBreak: false, ellipsis: true });
+  doc.fillColor('#059669').text(`MODE: ${shipment.transport_mode || 'Road Freight'}`, 200, 104, { width: 120, lineBreak: false, ellipsis: true });
   doc.fillColor('#0b1e36').text(`TERMS: ${paymentMode.split(' ')[0]}`, 330, 104, { width: 105, lineBreak: false, ellipsis: true });
   doc.fillColor('#059669').text(`STATUS: ${paymentMode.toUpperCase().split(' ')[0]}`, 445, 104, { width: 120, lineBreak: false, ellipsis: true });
 
@@ -444,10 +445,10 @@ async function generateCommercialInvoicePDF(shipment, products = [], settings = 
   const boxH = 98;
 
   drawPartyBox(doc, 42, boxY, boxW, boxH, '1. BILL FROM / CARRIER (EXPORTER)', {
-    name: 'NEXIVAN LOGISTICS INC.',
+    name: 'VELTRANO LOGISTICS INC.',
     address: 'Global Freight Forwarding & Logistics Operations',
     phone: settings.phone || '+1 (915) 217-3598',
-    email: settings.email || 'info@nexivanlogistics.com',
+    email: settings.email || 'info@veltranologistics.site',
     hub: `Origin Facility: ${origin}`,
   });
 
@@ -533,7 +534,7 @@ async function generateCommercialInvoicePDF(shipment, products = [], settings = 
 
   doc.rect(rightBoxX, boxBottomY + 52, rightBoxW, 28).fill('#0b1e36');
   doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(8).text('TOTAL AMOUNT DUE:', rightBoxX + 10, boxBottomY + 60, { lineBreak: false });
-  doc.fillColor('#38bdf8').font('Helvetica-Bold').fontSize(10).text(totalFreight, rightBoxX + 165, boxBottomY + 59, { width: 88, align: 'right', lineBreak: false });
+  doc.fillColor('#34d399').font('Helvetica-Bold').fontSize(10).text(totalFreight, rightBoxX + 165, boxBottomY + 59, { width: 88, align: 'right', lineBreak: false });
 
   curY = boxBottomY + 80 + 10;
 
@@ -549,15 +550,15 @@ async function generateCommercialInvoicePDF(shipment, products = [], settings = 
   doc.rect(42, curY, signBoxW, 15).fill('#f8fafc');
   doc.fillColor('#0b1e36').font('Helvetica-Bold').fontSize(6.5).text('AUTHORIZED FINANCIAL CONTROLLER', 48, curY + 4, { lineBreak: false });
   doc.moveTo(50, curY + 50).lineTo(204, curY + 50).lineWidth(0.5).stroke('#94a3b8');
-  doc.fillColor('#0284c7').font('Helvetica-Bold').fontSize(7).text('Nexivan Treasury Controller', 50, curY + 54, { lineBreak: false });
+  doc.fillColor('#059669').font('Helvetica-Bold').fontSize(7).text('Veltrano Treasury Controller', 50, curY + 54, { lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(6).text(`Audit Ref: FIN-${trackingNo.replace(/[^0-9]/g, '')}`, 50, curY + 63, { lineBreak: false });
 
   // 2. Official Finance Stamp
   const sealX = 223;
   doc.rect(sealX, curY, signBoxW, signBoxH).lineWidth(0.5).stroke('#cbd5e1');
-  doc.rect(sealX + 10, curY + 8, signBoxW - 20, signBoxH - 16).lineWidth(1).stroke('#0284c7');
-  doc.fillColor('#0284c7').font('Helvetica-Bold').fontSize(7).text('OFFICIAL FINANCE SEAL', sealX + 28, curY + 15, { lineBreak: false });
-  doc.fillColor('#0f172a').font('Helvetica-Bold').fontSize(6.5).text('NEXIVAN TREASURY & BILLING', sealX + 18, curY + 28, { lineBreak: false });
+  doc.rect(sealX + 10, curY + 8, signBoxW - 20, signBoxH - 16).lineWidth(1).stroke('#059669');
+  doc.fillColor('#059669').font('Helvetica-Bold').fontSize(7).text('OFFICIAL FINANCE SEAL', sealX + 28, curY + 15, { lineBreak: false });
+  doc.fillColor('#0f172a').font('Helvetica-Bold').fontSize(6.5).text('VELTRANO TREASURY & BILLING', sealX + 18, curY + 28, { lineBreak: false });
   doc.fillColor('#10b981').font('Helvetica-Bold').fontSize(6.5).text('SETTLEMENT CERTIFIED', sealX + 26, curY + 40, { lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(5.5).text(`REF: ${invoiceNo}`, sealX + 38, curY + 52, { lineBreak: false });
 
@@ -581,7 +582,7 @@ async function generateCommercialInvoicePDF(shipment, products = [], settings = 
 
   doc.fillColor('#0f172a').font('Helvetica-Bold').fontSize(7).text('AUTHENTIC COMMERCIAL INVOICE ARCHIVE', 252, curY + 7, { lineBreak: false });
   doc.fillColor('#475569').font('Helvetica').fontSize(6.5);
-  doc.text(`Verify online: https://nexivanlogistics.com/track-shipment?tracking=${encodeURIComponent(trackingNo)}`, 252, curY + 18, { width: 310, lineBreak: false, ellipsis: true });
+  doc.text(`Verify online: https://veltranologistics.site/track-shipment?tracking=${encodeURIComponent(trackingNo)}`, 252, curY + 18, { width: 310, lineBreak: false, ellipsis: true });
   doc.text('This invoice is recorded in the carrier billing ledger. All currency transactions in USD.', 252, curY + 28, { width: 310, lineBreak: false });
   curY += barStripH + 10;
 
@@ -594,7 +595,7 @@ async function generateCommercialInvoicePDF(shipment, products = [], settings = 
   doc.text(
     'I hereby certify that this invoice represents an authentic and truthful account of commercial carriage charges.\n' +
     'The cargo description and declared valuation are certified for international customs clearance and port transit.\n' +
-    `Authorized by Nexivan Logistics Finance Operations  |  Computerized Record Issued: ${currentDateStr}`,
+    `Authorized by Veltrano Logistics Finance Operations  |  Computerized Record Issued: ${currentDateStr}`,
     48, curY + 16, { width: 522, lineGap: 3 }
   );
 
@@ -602,9 +603,9 @@ async function generateCommercialInvoicePDF(shipment, products = [], settings = 
   const footY = fY + fH - 42;
   doc.rect(fX, footY, fW, 42).fill('#0b1e36');
 
-  doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(7.5).text('NEXIVAN LOGISTICS \u2022 OFFICIAL COMMERCIAL FREIGHT INVOICE', 48, footY + 7, { lineBreak: false });
+  doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(7.5).text('VELTRANO LOGISTICS \u2022 OFFICIAL COMMERCIAL FREIGHT INVOICE', 48, footY + 7, { lineBreak: false });
   doc.fillColor('#94a3b8').font('Helvetica').fontSize(6.5);
-  doc.text(`Billing Inquiries: ${settings.email || 'info@nexivanlogistics.com'}  |  Operations: ${settings.phone || '+1 (915) 217-3598'}  |  Web: https://nexivanlogistics.com`, 48, footY + 19, { width: 516, lineBreak: false });
+  doc.text(`Billing Inquiries: ${settings.email || 'info@veltranologistics.site'}  |  Operations: ${settings.phone || '+1 (915) 217-3598'}  |  Web: https://veltranologistics.site`, 48, footY + 19, { width: 516, lineBreak: false });
   doc.text('CONFIDENTIAL FINANCIAL RECORD \u2022 ISSUED PURSUANT TO INTERNATIONAL TRADE AND CUSTOMS REGULATIONS', 48, footY + 29, { width: 516, lineBreak: false });
 
   doc.end();
@@ -642,7 +643,7 @@ async function generateProofOfDeliveryPDF(shipment, checkpoint = {}, settings = 
   doc.rect(fX, fY, fW, fH).lineWidth(1.2).stroke('#065f46');
 
   // Header
-  drawNexivanLogo(doc, 48, 34, 0.65);
+  drawVeltranoLogo(doc, 48, 34, 0.65);
   doc.fillColor('#065f46').font('Helvetica').fontSize(6.8);
   doc.text('GLOBAL CONSIGNMENT TELEMETRY \u2022 OFFICIAL PROOF OF DELIVERY', 48, 70, { width: 260, lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(6.5);
@@ -734,8 +735,8 @@ async function generateProofOfDeliveryPDF(shipment, checkpoint = {}, settings = 
 
   // Seal Center
   const sealX = 250;
-  doc.rect(sealX, curY + 40, 115, 44).lineWidth(1).stroke('#0284c7');
-  doc.fillColor('#0284c7').font('Helvetica-Bold').fontSize(6.8).text('NEXIVAN TELEMETRY', sealX + 18, curY + 48, { lineBreak: false });
+  doc.rect(sealX, curY + 40, 115, 44).lineWidth(1).stroke('#059669');
+  doc.fillColor('#059669').font('Helvetica-Bold').fontSize(6.8).text('VELTRANO TELEMETRY', sealX + 18, curY + 48, { lineBreak: false });
   doc.fillColor('#059669').font('Helvetica-Bold').fontSize(6.5).text('DELIVERY CONFIRMED', sealX + 16, curY + 60, { lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(5.5).text('SYSTEM RECORD VALIDATED', sealX + 12, curY + 71, { lineBreak: false });
 
@@ -757,7 +758,7 @@ async function generateProofOfDeliveryPDF(shipment, checkpoint = {}, settings = 
   doc.rect(42, curY, signBoxW, 15).fill('#f8fafc');
   doc.fillColor('#0b1e36').font('Helvetica-Bold').fontSize(6.5).text('FINAL-MILE COURIER OFFICER', 48, curY + 4, { lineBreak: false });
   doc.moveTo(50, curY + 50).lineTo(204, curY + 50).lineWidth(0.5).stroke('#94a3b8');
-  doc.fillColor('#059669').font('Helvetica-Bold').fontSize(7).text('Nexivan Courier Operations', 50, curY + 54, { lineBreak: false });
+  doc.fillColor('#059669').font('Helvetica-Bold').fontSize(7).text('Veltrano Courier Operations', 50, curY + 54, { lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(6).text(`Unit Ref: NX-CR-${trackingNo.slice(-4) || '8190'}`, 50, curY + 63, { lineBreak: false });
 
   // 2. Terminal Station Seal
@@ -766,7 +767,7 @@ async function generateProofOfDeliveryPDF(shipment, checkpoint = {}, settings = 
   doc.rect(sealX2 + 10, curY + 8, signBoxW - 20, signBoxH - 16).lineWidth(1).stroke('#059669');
   doc.fillColor('#059669').font('Helvetica-Bold').fontSize(7).text('TERMINAL DISPATCH SEAL', sealX2 + 24, curY + 15, { lineBreak: false });
   doc.fillColor('#0f172a').font('Helvetica-Bold').fontSize(6.5).text('DESTINATION HUB SECURED', sealX2 + 22, curY + 28, { lineBreak: false });
-  doc.fillColor('#0284c7').font('Helvetica-Bold').fontSize(6.5).text('CARGO HANDOVER COMPLETE', sealX2 + 18, curY + 40, { lineBreak: false });
+  doc.fillColor('#059669').font('Helvetica-Bold').fontSize(6.5).text('CARGO HANDOVER COMPLETE', sealX2 + 18, curY + 40, { lineBreak: false });
   doc.fillColor('#64748b').font('Helvetica').fontSize(5.5).text(`POD REF: ${podNo}`, sealX2 + 38, curY + 52, { lineBreak: false });
 
   // 3. Handover Inspection Verification
@@ -791,7 +792,7 @@ async function generateProofOfDeliveryPDF(shipment, checkpoint = {}, settings = 
 
   doc.fillColor('#0f172a').font('Helvetica-Bold').fontSize(7).text('AUTHENTIC PROOF OF DELIVERY ARCHIVE', 252, curY + 7, { lineBreak: false });
   doc.fillColor('#475569').font('Helvetica').fontSize(6.5);
-  doc.text(`Verify online: https://nexivanlogistics.com/track-shipment?tracking=${encodeURIComponent(trackingNo)}`, 252, curY + 18, { width: 310, lineBreak: false, ellipsis: true });
+  doc.text(`Verify online: https://veltranologistics.site/track-shipment?tracking=${encodeURIComponent(trackingNo)}`, 252, curY + 18, { width: 310, lineBreak: false, ellipsis: true });
   doc.text('This delivery certificate constitutes conclusive carrier evidence of final receipt.', 252, curY + 28, { width: 310, lineBreak: false });
   curY += barStripH + 10;
 
@@ -804,7 +805,7 @@ async function generateProofOfDeliveryPDF(shipment, checkpoint = {}, settings = 
   doc.text(
     'This Proof of Delivery certificate is generated automatically from carrier GPS & milestone telemetry.\n' +
     'Recipient confirmation recorded on official handheld scanner terminal. Signature verified upon cargo handover.\n' +
-    `Computerized Delivery Log Sealed: ${currentDateStr}  |  Archived in Nexivan Global Network.`,
+    `Computerized Delivery Log Sealed: ${currentDateStr}  |  Archived in Veltrano Global Network.`,
     48, curY + 16, { width: 522, lineGap: 3 }
   );
 
@@ -812,9 +813,9 @@ async function generateProofOfDeliveryPDF(shipment, checkpoint = {}, settings = 
   const footY = fY + fH - 42;
   doc.rect(fX, footY, fW, 42).fill('#064e3b');
 
-  doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(7.5).text('NEXIVAN LOGISTICS \u2022 GLOBAL CONSIGNMENT PROOF OF DELIVERY (POD)', 48, footY + 7, { lineBreak: false });
+  doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(7.5).text('VELTRANO LOGISTICS \u2022 GLOBAL CONSIGNMENT PROOF OF DELIVERY (POD)', 48, footY + 7, { lineBreak: false });
   doc.fillColor('#a7f3d0').font('Helvetica').fontSize(6.5);
-  doc.text(`Official Delivery Record  |  Operations Desk: ${settings.phone || '+1 (915) 217-3598'}  |  Email: ${settings.email || 'info@nexivanlogistics.com'}`, 48, footY + 19, { width: 516, lineBreak: false });
+  doc.text(`Official Delivery Record  |  Operations Desk: ${settings.phone || '+1 (915) 217-3598'}  |  Email: ${settings.email || 'info@veltranologistics.site'}`, 48, footY + 19, { width: 516, lineBreak: false });
   doc.text('CONFIDENTIAL PROOF OF DELIVERY RECORD \u2022 CONSTITUTES CONCLUSIVE LEGAL EVIDENCE OF DISCHARGE', 48, footY + 29, { width: 516, lineBreak: false });
 
   doc.end();

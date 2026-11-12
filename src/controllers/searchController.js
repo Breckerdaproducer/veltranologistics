@@ -83,12 +83,12 @@ const SITE_INDEX = [
     excerpt: 'Reach out to our 24/7 customer care team for instant freight quotes, booking assistance, and support.',
   },
   {
-    title: 'About Nexivan Logistics',
+    title: 'About Veltrano Logistics',
     category: 'Page',
     url: '/about-us',
     icon: 'fa-info-circle',
     keywords: ['about', 'company', 'mission', 'history', 'team', 'values', 'network'],
-    excerpt: 'Learn about Nexivan Logistics, our worldwide transportation network, decades of experience, and dedication to excellence.',
+    excerpt: 'Learn about Veltrano Logistics, our worldwide transportation network, decades of experience, and dedication to excellence.',
   },
   // Insights & Blog
   {
@@ -108,7 +108,7 @@ const SITE_INDEX = [
     excerpt: 'A comprehensive comparative analysis of localized freight versus international multi-modal shipping options.',
   },
   {
-    title: 'How Nexivan Ensures On-Time Delivery Every Time',
+    title: 'How Veltrano Ensures On-Time Delivery Every Time',
     category: 'Insight',
     url: '/how-logisku-ensures-on-time-delivery-every-time',
     icon: 'fa-clock',

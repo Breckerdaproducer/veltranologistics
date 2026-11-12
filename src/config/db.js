@@ -5,7 +5,7 @@ require('dotenv').config();
 const pool = new Pool({
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT || '5432', 10),
-  database: process.env.DB_NAME || 'nexivan_logistics',
+  database: process.env.DB_NAME || 'veltrano_logistics',
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || 'Maah2000',
   max: 20,
@@ -131,7 +131,7 @@ async function initDB() {
     await client.query(`
       CREATE TABLE IF NOT EXISTS company_settings (
         id SERIAL PRIMARY KEY,
-        email VARCHAR(255) NOT NULL DEFAULT 'info@nexivanlogistics.com',
+        email VARCHAR(255) NOT NULL DEFAULT 'info@veltranologistics.site',
         phone VARCHAR(100) NOT NULL DEFAULT '+1 (915) 217-3598',
         whatsapp VARCHAR(100) NOT NULL DEFAULT '+1 (915) 217-3598',
         whatsapp_raw VARCHAR(100) NOT NULL DEFAULT '19152173598',
@@ -153,7 +153,7 @@ async function initDB() {
     if (settingsCheck.rows.length === 0) {
       await client.query(`
         INSERT INTO company_settings (id, email, phone, whatsapp, whatsapp_raw, address, working_hours)
-        VALUES (1, 'info@nexivanlogistics.com', '+1 (915) 217-3598', '+1 (915) 217-3598', '19152173598', 'USA', 'Mon - Sat: 8:00 AM - 7:00 PM')
+        VALUES (1, 'info@veltranologistics.site', '+1 (915) 217-3598', '+1 (915) 217-3598', '19152173598', 'USA', 'Mon - Sat: 8:00 AM - 7:00 PM')
         ON CONFLICT (id) DO NOTHING;
       `);
       console.log('[DB Seed] Default company contact settings seeded.');
@@ -164,13 +164,13 @@ async function initDB() {
     if (adminCheck.rows.length === 0) {
       const defaultUsername = process.env.ADMIN_DEFAULT_USERNAME || 'admin';
       const defaultPassword = process.env.ADMIN_DEFAULT_PASSWORD || 'AdminPassword123!';
-      const defaultEmail = process.env.ADMIN_EMAIL || 'info@nexivanlogistics.com';
+      const defaultEmail = process.env.ADMIN_EMAIL || 'info@veltranologistics.site';
       const hashedPassword = await bcrypt.hash(defaultPassword, 10);
 
       await client.query(
         `INSERT INTO admins (username, email, password_hash, full_name, role)
          VALUES ($1, $2, $3, $4, $5)`,
-        [defaultUsername, defaultEmail, hashedPassword, 'Nexivan Administrator', 'superadmin']
+        [defaultUsername, defaultEmail, hashedPassword, 'Veltrano Administrator', 'superadmin']
       );
       console.log(`[DB Seed] Default admin created: ${defaultUsername} (Password: ${defaultPassword})`);
     }
@@ -221,7 +221,7 @@ async function initDB() {
           product, transport_mode, payment_mode, total_freight, pickup_date, pickup_time,
           weight, quantity, shipment_date, estimated_delivery_date, notes, comment
         ) VALUES (
-          '12345', 'Nexivan International Depot', '+1 (915) 217-3598', 'dispatch@nexivanlogistics.com', 'Logistics Way 10, Houston, TX',
+          '12345', 'Veltrano International Depot', '+1 (915) 217-3598', 'dispatch@veltranologistics.site', 'Logistics Way 10, Houston, TX',
           'Elena Rostova', '+1 (438) 668-1202', 'elena.rostova@example.com', '88 Maple Grove Terrace, Seattle, WA',
           'Houston, TX, USA', 'Seattle, WA, USA', 'Seattle Delivery Hub, WA', 'Out for Delivery', 'Truck Freight', 'Palletised Cargo',
           'Heavy Industrial Machinery & Spare Parts', 'Road Freight', 'Cash on Delivery (COD)', '$620.00 USD', '2026-09-08', '02:15 PM',

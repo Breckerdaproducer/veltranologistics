@@ -1,5 +1,5 @@
 /**
- * Nexivan Logistics - Advanced Geocoding & Coordinate Resolution Service
+ * Veltrano Logistics - Advanced Geocoding & Coordinate Resolution Service
  * Provides:
  *  - State-aware and Zip-code aware offline coordinate resolution
  *  - High-precision online geocoding via OpenStreetMap Photon & Nominatim
@@ -422,7 +422,7 @@ async function fetchOnlineCoordinates(queryStr) {
   try {
     const photonUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(queryStr)}&limit=1`;
     const res = await fetchWithTimeout(photonUrl, {
-      headers: { 'User-Agent': 'NexivanLogistics-TelemetryEngine/5.2' }
+      headers: { 'User-Agent': 'VeltranoLogistics-TelemetryEngine/5.2' }
     }, 2500);
 
     if (res.ok) {
@@ -442,7 +442,7 @@ async function fetchOnlineCoordinates(queryStr) {
     try {
       const photonUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(simplified)}&limit=1`;
       const res = await fetchWithTimeout(photonUrl, {
-        headers: { 'User-Agent': 'NexivanLogistics-TelemetryEngine/5.2' }
+        headers: { 'User-Agent': 'VeltranoLogistics-TelemetryEngine/5.2' }
       }, 2000);
 
       if (res.ok) {
@@ -461,7 +461,7 @@ async function fetchOnlineCoordinates(queryStr) {
   try {
     const nomUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(queryStr)}&limit=1`;
     const res = await fetchWithTimeout(nomUrl, {
-      headers: { 'User-Agent': 'NexivanLogistics-TelemetryEngine/5.2' }
+      headers: { 'User-Agent': 'VeltranoLogistics-TelemetryEngine/5.2' }
     }, 2500);
 
     if (res.ok) {

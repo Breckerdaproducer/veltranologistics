@@ -1,5 +1,5 @@
 /**
- * Nexivan Logistics - Frontend API Integration
+ * Veltrano Logistics - Frontend API Integration
  * Connects frontend forms and search to Node.js / PostgreSQL backend (port 5000)
  * Handles:
  *  1. Consignment Tracking (track-shipment.html)
@@ -469,14 +469,14 @@
     const vehicleMarker = L.marker(currentCoords, { icon: vehicleIcon, zIndexOffset: 1000 }).addTo(map);
     vehicleMarker.bindPopup(`
       <div style="font-family:inherit;font-size:12px;line-height:1.45;min-width:200px;">
-        <div style="font-weight:800;color:#0284c7;margin-bottom:4px;display:flex;align-items:center;gap:5px;">
+        <div style="font-weight:800;color:#059669;margin-bottom:4px;display:flex;align-items:center;gap:5px;">
           <i class="${vehicleIconClass}"></i> Active Telemetry Position
         </div>
         <div style="color:#0b1e36;font-weight:700;margin:3px 0;">
           <i class="fas fa-box" style="color:#f59e0b;"></i> ${product} (${quantity} ${quantity === 1 ? 'unit' : 'units'})
         </div>
         <div style="color:#334155;font-size:11.5px;">Current Hub: <strong>${currentLoc}</strong></div>
-        <div style="color:#0284c7;font-weight:700;font-size:11.5px;margin-top:3px;">
+        <div style="color:#059669;font-weight:700;font-size:11.5px;margin-top:3px;">
           Status: ${status} (${progress}%)
         </div>
       </div>
@@ -485,7 +485,7 @@
     // 4. Draw Traversed and Pending Route Paths linking the markers
     // Traversed line (Origin -> Current Goods Location)
     L.polyline([originCoords, currentCoords], {
-      color: '#0284c7',
+      color: '#059669',
       weight: 5,
       opacity: 0.95,
       lineCap: 'round',
@@ -495,7 +495,7 @@
 
     // Pending line (Current Goods Location -> Delivery Destination)
     L.polyline([currentCoords, destCoords], {
-      color: '#06b6d4',
+      color: '#10b981',
       weight: 3.5,
       opacity: 0.85,
       dashArray: '6, 8',
@@ -527,16 +527,16 @@
   // 1. CONSIGNMENT TRACKING
   // ==========================================================================
   function initTracking() {
-    const trackForm = document.querySelector('form[name="wpcargo-track-form"], #nexivan-track-form, .wpcargo-track form');
+    const trackForm = document.querySelector('form[name="wpcargo-track-form"], #veltrano-track-form, #nexivan-track-form, .wpcargo-track form');
     const trackInput = document.querySelector('input.input_track_num, input[name="wpcargo_tracking_number"], input[name="tracking"], #wpcargo_tracking_number');
     const submitBtn = document.querySelector('#submit_wpcargo, button[name="wpcargo-submit"], input[name="wpcargo-submit"]');
 
     // Container for results
-    let resultContainer = document.getElementById('nexivan-tracking-result-box');
+    let resultContainer = document.getElementById('veltrano-tracking-result-box') || document.getElementById('nexivan-tracking-result-box');
     if (!resultContainer) {
       resultContainer = document.createElement('div');
-      resultContainer.id = 'nexivan-tracking-result-box';
-      resultContainer.className = 'nexivan-tracking-results-wrap';
+      resultContainer.id = 'veltrano-tracking-result-box';
+      resultContainer.className = 'veltrano-tracking-results-wrap nexivan-tracking-results-wrap';
       const mainTrackDiv = document.querySelector('.wpcargo-track.wpcargo') || (trackForm ? trackForm.parentElement : null);
       if (mainTrackDiv) {
         mainTrackDiv.appendChild(resultContainer);
@@ -562,7 +562,7 @@
       }
 
       const runScroll = () => {
-        const container = document.getElementById('nexivan-tracking-result-box');
+        const container = document.getElementById('veltrano-tracking-result-box') || document.getElementById('nexivan-tracking-result-box');
         if (!container) return;
         const target = container.querySelector('.nex-track-card') || container;
         if (!target) return;
@@ -646,7 +646,7 @@
       if (resultContainer) {
         resultContainer.innerHTML = `
           <div class="nex-track-card nex-track-loading" style="background:#fff; border: 2px solid #e2e8f0; border-radius: 16px; padding: 32px; text-align: center; margin-top: 24px;">
-            <div class="nex-spinner" style="width: 44px; height: 44px; border: 4px solid #e0f2fe; border-top-color: #0284c7; border-radius: 50%; animation: nexSpin 0.9s linear infinite; margin: 0 auto 16px;"></div>
+            <div class="nex-spinner" style="width: 44px; height: 44px; border: 4px solid #ecfdf5; border-top-color: #059669; border-radius: 50%; animation: nexSpin 0.9s linear infinite; margin: 0 auto 16px;"></div>
             <p style="font-size: 16px; font-weight: 600; color: #0b1e36; margin: 0;">Querying real-time satellite & dispatch telemetry for <strong>${cleanNum}</strong>...</p>
           </div>
         `;
@@ -664,7 +664,7 @@
 
         renderTrackingSuccess(data);
       } catch (error) {
-        console.error('[Nexivan Tracking Error]', error);
+        console.error('[Veltrano Tracking Error]', error);
         renderTrackingError(cleanNum);
       }
     }
@@ -685,7 +685,7 @@
             <ul style="margin: 0; padding-left: 18px; line-height: 1.6;">
               <li>Check your waybill or consignment note for accuracy.</li>
               <li>Verify that the tracking code was entered correctly with no missing digits.</li>
-              <li>For immediate assistance, call our 24/7 dispatch desk at <a href="/contacts" style="color:#0284c7; font-weight:bold;">Contact Us</a>.</li>
+              <li>For immediate assistance, call our 24/7 dispatch desk at <a href="/contacts" style="color:#059669; font-weight:bold;">Contact Us</a>.</li>
             </ul>
           </div>
         </div>
@@ -729,7 +729,7 @@
       else if (statusLower.includes('order') || statusLower.includes('pending')) activeStepIndex = 0;
 
       // Badges
-      let statusColor = '#0284c7';
+      let statusColor = '#059669';
       if (statusLower.includes('delivered')) statusColor = '#10b981';
       else if (statusLower.includes('out for delivery')) statusColor = '#f59e0b';
       else if (statusLower.includes('hold')) statusColor = '#ef4444';
@@ -871,7 +871,7 @@
           <div class="nex-stepper-container" style="position: relative; margin: 26px 0 26px; width: 100%; box-sizing: border-box;">
             <!-- Continuous Connecting Progress Line Track -->
             <div class="nex-stepper-bar-bg" style="position: absolute; top: 14px; left: 10%; right: 10%; height: 6px; background: #e2e8f0; border-radius: 9999px; z-index: 1; display: block;">
-              <div class="nex-stepper-bar-fill" style="height: 100%; width: ${progress}%; background: linear-gradient(90deg, #0284c7, #06b6d4); border-radius: 9999px; transition: width 0.8s ease; display: block; box-shadow: 0 0 8px rgba(2, 132, 199, 0.35);"></div>
+              <div class="nex-stepper-bar-fill" style="height: 100%; width: ${progress}%; background: linear-gradient(90deg, #059669, #10b981); border-radius: 9999px; transition: width 0.8s ease; display: block; box-shadow: 0 0 8px rgba(5, 150, 105, 0.35);"></div>
             </div>
             <!-- Stepper Milestone Nodes -->
             <div class="nex-stepper-points" style="position: relative; display: flex; justify-content: space-between; align-items: flex-start; z-index: 2; width: 100%;">
@@ -880,7 +880,7 @@
       steps.forEach((st, idx) => {
         const isDone = idx <= activeStepIndex;
         const isCurrent = idx === activeStepIndex;
-        const circleBg = isCurrent ? '#0284c7' : isDone ? '#10b981' : '#e2e8f0';
+        const circleBg = isCurrent ? '#059669' : isDone ? '#10b981' : '#e2e8f0';
         const circleColor = isDone || isCurrent ? '#ffffff' : '#64748b';
         const border = isCurrent ? '3px solid #7dd3fc' : 'none';
 
@@ -889,7 +889,7 @@
             <div class="nex-step-circle" style="width: 28px; height: 28px; border-radius: 50%; background: ${circleBg}; color: ${circleColor}; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.12); border: ${border}; z-index: 3; position: relative;">
               ${isDone && !isCurrent ? '<i class="fas fa-check"></i>' : (idx + 1)}
             </div>
-            <div class="nex-step-label ${isCurrent ? 'active' : ''}" style="font-size: 11px; font-weight: ${isCurrent ? '800' : '600'}; color: ${isCurrent ? '#0284c7' : '#64748b'}; margin-top: 6px; line-height: 1.25; word-break: break-word; text-align: center;">${st.name}</div>
+            <div class="nex-step-label ${isCurrent ? 'active' : ''}" style="font-size: 11px; font-weight: ${isCurrent ? '800' : '600'}; color: ${isCurrent ? '#059669' : '#64748b'}; margin-top: 6px; line-height: 1.25; word-break: break-word; text-align: center;">${st.name}</div>
           </div>
         `;
       });
@@ -943,7 +943,7 @@
               <div class="nex-products-table-wrap" style="margin-top: 18px; border-top: 1px solid #e2e8f0; padding-top: 16px;">
                 <div style="font-size: 13px; font-weight: 700; color: #0b1e36; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
                   <span style="display: flex; align-items: center; gap: 6px;">
-                    <i class="fas fa-boxes-stacked" style="color: #0284c7;"></i>
+                    <i class="fas fa-boxes-stacked" style="color: #059669;"></i>
                     <span>Itemized Cargo Manifest (${s.products.length} ${s.products.length === 1 ? 'item' : 'items'})</span>
                   </span>
                   <span style="font-size: 11px; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 6px;">
@@ -970,7 +970,7 @@
                           <td style="padding: 10px 14px; color: #475569;"><span style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px; font-weight: 500;">${p.package_type || 'Package'}</span></td>
                           <td style="padding: 10px 14px; color: #64748b; font-family: monospace;">${p.dimensions || 'N/A'}</td>
                           <td style="padding: 10px 14px; color: #64748b;">${p.weight || 'N/A'}</td>
-                          <td style="padding: 10px 14px; text-align: right; font-weight: 800; color: #0284c7;">${p.quantity || 1}</td>
+                          <td style="padding: 10px 14px; text-align: right; font-weight: 800; color: #059669;">${p.quantity || 1}</td>
                         </tr>
                       `).join('')}
                     </tbody>
@@ -1043,12 +1043,12 @@
                   <span class="legend-badge delivery"><i class="fas fa-map-marker-alt"></i></span>
                   <span>Delivery Destination</span>
                 </div>
-                <div class="legend-item" style="color: #0284c7;">
-                  <span style="display:inline-block; width: 18px; height: 3px; background: #0284c7; vertical-align: middle; margin-right: 4px; border-radius: 2px;"></span>
+                <div class="legend-item" style="color: #059669;">
+                  <span style="display:inline-block; width: 18px; height: 3px; background: #059669; vertical-align: middle; margin-right: 4px; border-radius: 2px;"></span>
                   <span>Traversed Route</span>
                 </div>
-                <div class="legend-item" style="color: #06b6d4;">
-                  <span style="display:inline-block; width: 18px; height: 0; border-top: 2px dashed #06b6d4; vertical-align: middle; margin-right: 4px;"></span>
+                <div class="legend-item" style="color: #10b981;">
+                  <span style="display:inline-block; width: 18px; height: 0; border-top: 2px dashed #10b981; vertical-align: middle; margin-right: 4px;"></span>
                   <span>Scheduled Route</span>
                 </div>
               </div>
@@ -1116,7 +1116,7 @@
             <div class="nex-awb-header">
               <div class="nex-awb-brand">
                 <div class="nex-awb-logo-wrap">
-                  <img src="/assets/images/nexivan-logo.svg" alt="Nexivan Logistics" class="nex-awb-logo" loading="eager" fetchpriority="high" onerror="this.onerror=null; this.src='assets/images/nexivan-logo.svg';" />
+                  <img src="/assets/images/veltrano-logo.svg" alt="Veltrano Logistics" class="nex-awb-logo" loading="eager" fetchpriority="high" onerror="this.onerror=null; this.src='assets/images/veltrano-logo.svg';" />
                 </div>
                 <div class="nex-awb-title">OFFICIAL CONSIGNMENT TRACKING REPORT &amp; AIR WAYBILL (AWB)</div>
                 <div class="nex-awb-meta">Global Freight Network &bull; Computerized Carrier Telemetry System</div>
@@ -1263,12 +1263,12 @@
               <div class="nex-awb-sign-box">
                 <div class="nex-awb-sign-line"></div>
                 <div class="nex-awb-sign-label">Authorized Carrier Dispatch Officer</div>
-                <div class="nex-awb-sign-sub">Nexivan Logistics &bull; Telemetry Operations Desk</div>
+                <div class="nex-awb-sign-sub">Veltrano Logistics &bull; Telemetry Operations Desk</div>
               </div>
               <div class="nex-awb-stamp-box">
                 <div class="nex-awb-stamp">
                   <span>OFFICIAL VERIFICATION</span>
-                  <span>NEXIVAN TELEMETRY</span>
+                  <span>VELTRANO TELEMETRY</span>
                   <span>AUTHENTIC RECORD</span>
                 </div>
               </div>
@@ -1281,7 +1281,7 @@
 
             <!-- Legal Disclaimer -->
             <div class="nex-awb-legal">
-              <p>This document constitutes an authentic computerized Air Waybill &amp; Consignment Tracking Report issued by the Nexivan Logistics Global Dispatch Network. Real-time satellite telemetry and status updates can be validated anytime at <strong>https://nexivanlogistics.com/track-shipment?tracking=${encodeURIComponent(trackingNo)}</strong>.</p>
+              <p>This document constitutes an authentic computerized Air Waybill &amp; Consignment Tracking Report issued by the Veltrano Logistics Global Dispatch Network. Real-time satellite telemetry and status updates can be validated anytime at <strong>https://veltranologistics.site/track-shipment?tracking=${encodeURIComponent(trackingNo)}</strong>.</p>
             </div>
           </div>
         </div>
@@ -1296,7 +1296,7 @@
           window.initNexivanTelemetryMap('nex-interactive-telemetry-map', data);
         }
       } catch (mapErr) {
-        console.warn('[Nexivan Telemetry Map Init Error]', mapErr);
+        console.warn('[Veltrano Telemetry Map Init Error]', mapErr);
       }
     }
 
@@ -1341,7 +1341,7 @@
     }
 
     // Expose global helper
-    window.nexivanTrack = function (num) {
+    window.veltranoTrack = window.nexivanTrack = function (num) {
       if (!num) return;
       if (document.querySelector('form[name="wpcargo-track-form"], #nexivan-track-form')) {
         performTracking(num);
@@ -1558,7 +1558,7 @@
           banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       } catch (err) {
-        console.error('[Nexivan Contact Submit Error]', err);
+        console.error('[Veltrano Contact Submit Error]', err);
         banner.style.display = 'flex';
         banner.style.alignItems = 'flex-start';
         banner.style.gap = '14px';
@@ -1613,7 +1613,7 @@
       // Enhance logo if empty
       const logoLink = popup.querySelector('.pxl-logo a');
       if (logoLink && !logoLink.querySelector('img')) {
-        logoLink.innerHTML = '<img src="/assets/images/Nexivan-logo.svg" alt="Nexivan Logistics" style="max-height: 42px; width: auto;"/>';
+        logoLink.innerHTML = '<img src="/assets/images/veltrano-logo.svg" alt="Veltrano Logistics" style="max-height: 42px; width: auto;"/>';
       }
 
       // Enhance placeholder
@@ -1864,7 +1864,7 @@
         });
       }
 
-      // Smart Submit handling - always stays on Nexivan Logistics
+      // Smart Submit handling - always stays on Veltrano Logistics
       async function handleSearchSubmit(e) {
         if (e) {
           e.preventDefault();
@@ -1993,7 +1993,7 @@
   // ==========================================================================
   // 4. DYNAMIC COMPANY CONTACT & SETTINGS HYDRATION
   // ==========================================================================
-  const SETTINGS_STORAGE_KEY = 'nexivan_company_settings';
+  const SETTINGS_STORAGE_KEY = 'veltrano_company_settings';
 
   function applyCompanySettings(settings) {
     if (!settings) return;
@@ -2141,7 +2141,7 @@
           }
 
           // Replace email strings
-          if (email && (newVal.includes('info@nexivanlogistics.com') || newVal.includes('info@Equitranslogistics.com'))) {
+          if (email && (newVal.includes('info@veltranologistics.site') || newVal.includes('info@Equitranslogistics.com'))) {
             newVal = newVal
               .replace(/info@nexivanlogistics\.com/gi, email)
               .replace(/info@Equitranslogistics\.com/gi, email);
@@ -2201,9 +2201,9 @@
   }
 
   async function initCompanySettings() {
-    // 0. Server-Injected window.__NEXIVAN_SETTINGS__ (instant 0ms execution)
-    if (typeof window !== 'undefined' && window.__NEXIVAN_SETTINGS__) {
-      applyCompanySettings(window.__NEXIVAN_SETTINGS__);
+    // 0. Server-Injected window.__VELTRANO_SETTINGS__ (instant 0ms execution)
+    if (typeof window !== 'undefined' && window.__VELTRANO_SETTINGS__) {
+      applyCompanySettings(window.__VELTRANO_SETTINGS__);
     }
 
     // 1. Instant Synchronous Hydration from Local Storage (0ms delay)

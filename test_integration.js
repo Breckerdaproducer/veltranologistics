@@ -37,7 +37,8 @@ async function runTests() {
     'http://localhost:5000/api/health',
     'http://localhost:5000/api/track/TRK-89201',
     'http://localhost:5000/api/search?q=air',
-    'http://localhost:5000/assets/js/nexivan-api.js',
+    'http://localhost:5000/assets/js/veltrano-api.js',
+    'http://localhost:5000/assets/images/veltrano-logo.svg',
     'http://localhost:5000/assets/css/sky-sea-theme.css',
   ];
 

@@ -33,7 +33,7 @@ async function runTests() {
   console.log('=== TEST 1: GET /contacts (Clean form loaded) ===');
   const res1 = await request('http://localhost:5000/contacts');
   console.log('Status:', res1.status);
-  console.log('Has nexivan-contact-form:', res1.data.includes('nexivan-contact-form'));
+  console.log('Has veltrano-contact-form:', res1.data.includes('veltrano-contact-form'));
   console.log('No wpforms-ajax-form in form tag:', !res1.data.includes('class="wpforms-validate wpforms-form wpforms-ajax-form"'));
 
   console.log('\n=== TEST 2: POST /api/contact (Valid AJAX Submission) ===');

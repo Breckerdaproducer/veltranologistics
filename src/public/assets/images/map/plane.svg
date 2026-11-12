@@ -31,8 +31,8 @@
 
     <!-- Brand Accent Blue -->
     <linearGradient id="brandBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="100%" stop-color="#0284c7"/>
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
     </linearGradient>
   </defs>
 
@@ -62,11 +62,11 @@
     <path d="M 60 12 C 64 18 66 32 66 70 C 66 92 63 106 60 110 C 57 106 54 92 54 70 C 54 32 56 18 60 12 Z" fill="url(#fuselageGrad)" stroke="#94a3b8" stroke-width="0.8"/>
 
     <!-- Vertical Stabilizer (Tail Fin) with Nexivan Blue -->
-    <path d="M 60 84 L 62.5 106 L 60 109 L 57.5 106 Z" fill="url(#brandBlue)" stroke="#0369a1" stroke-width="0.6"/>
+    <path d="M 60 84 L 62.5 106 L 60 109 L 57.5 106 Z" fill="url(#brandBlue)" stroke="#047857" stroke-width="0.6"/>
 
     <!-- Cockpit Windshield (Glass sheen) -->
     <path d="M 57 24 C 58 22 60 21 63 24 L 64 27 C 62 25 58 25 56 27 Z" fill="#0f172a"/>
-    <path d="M 58 24.5 C 59 23 61 23 62 24.5" stroke="#38bdf8" stroke-width="0.7" fill="none"/>
+    <path d="M 58 24.5 C 59 23 61 23 62 24.5" stroke="#34d399" stroke-width="0.7" fill="none"/>
 
     <!-- Nose Radome Line -->
     <path d="M 58 17 C 60 18 62 18 64 17" stroke="#cbd5e1" stroke-width="0.8" fill="none"/>

@@ -118,7 +118,7 @@ async function submitContact(req, res) {
     console.error('[Contact Error] Form submission failure:', error);
     return res.status(500).json({
       success: false,
-      message: 'Unable to send your message at this time. Please try again or contact us directly at info@nexivanlogistics.com.',
+      message: 'Unable to send your message at this time. Please try again or contact us directly at info@veltranologistics.site.',
     });
   }
 }

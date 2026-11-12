@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
@@ -22,6 +23,19 @@ const settingsRoutes = require('./routes/settingsRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const publicDir = path.join(__dirname, 'public');
+
+// 1. High-Performance Gzip / Deflate HTTP Compression
+app.use(
+  compression({
+    filter: (req, res) => {
+      if (req.headers['x-no-compression']) {
+        return false;
+      }
+      return compression.filter(req, res);
+    },
+    level: 6, // optimal balance between compression ratio and CPU overhead
+  })
+);
 
 // Middlewares
 app.use(
@@ -74,7 +88,7 @@ app.get('/api/geocode', async (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
-    service: 'Nexivan Logistics API',
+    service: 'Veltrano Logistics API',
     time: new Date().toISOString(),
   });
 });
@@ -128,7 +142,7 @@ async function getLiveCompanySettings() {
   } catch (e) {}
 
   return cachedCompanySettings || {
-    email: 'info@nexivanlogistics.com',
+    email: 'info@veltranologistics.site',
     phone: '+1 (915) 217-3598',
     whatsapp: '+1 (915) 217-3598',
     whatsapp_raw: '19152173598',
@@ -139,7 +153,7 @@ async function getLiveCompanySettings() {
 
 async function renderHtmlWithDynamicSettings(html) {
   const s = await getLiveCompanySettings();
-  const email = (s.email || 'info@nexivanlogistics.com').trim();
+  const email = (s.email || 'info@veltranologistics.site').trim();
   const phone = (s.phone || '+1 (915) 217-3598').trim();
   const whatsapp = (s.whatsapp || '+1 (915) 217-3598').trim();
   const whatsappRaw = (s.whatsapp_raw || (whatsapp ? whatsapp.replace(/\D/g, '') : '19152173598')).trim();
@@ -169,14 +183,16 @@ async function renderHtmlWithDynamicSettings(html) {
   // 4. Legacy domain and form action cleanup
   out = out.replace(/action="https?:\/\/(?:www\.)?equitransworldlogistics\.com[^"]*"/gi, 'action="/track-shipment"');
   out = out.replace(/https?:\/\/(?:www\.)?equitransworldlogistics\.com\/?/gi, '/');
-  out = out.replace(/Equitransworldlogistics\.com/gi, 'Nexivan Logistics');
+  out = out.replace(/Equitransworldlogistics\.com/gi, 'Veltrano Logistics');
 
   // 4b. Ensure logo paths are strictly lowercase for case-sensitive Linux hosts
-  out = out.replace(/assets\/images\/Nexivan-logo\.svg/g, 'assets/images/nexivan-logo.svg');
-  out = out.replace(/assets\/images\/Nexivan-logo-white\.svg/g, 'assets/images/nexivan-logo-white.svg');
+  out = out.replace(/assets\/images\/[Nn]exivan-logo(-white)?\.svg/gi, (m, white) => `assets/images/veltrano-logo${white ? '-white' : ''}.svg`);
+  out = out.replace(/assets\/images\/Veltrano-logo\.svg/g, 'assets/images/veltrano-logo.svg');
+  out = out.replace(/assets\/images\/Veltrano-logo-white\.svg/g, 'assets/images/veltrano-logo-white.svg');
+  out = out.replace(/assets\/images\/nexivan-favicon\.svg/g, 'assets/images/veltrano-favicon.svg');
 
   // 5. Inject global settings script in <head>
-  const settingsScript = `<script id="nexivan-injected-settings">window.__NEXIVAN_SETTINGS__ = ${JSON.stringify(s)}; try { localStorage.setItem('nexivan_company_settings', JSON.stringify(${JSON.stringify(s)})); } catch(e){}</script>`;
+  const settingsScript = `<script id="veltrano-injected-settings">window.__VELTRANO_SETTINGS__ = ${JSON.stringify(s)}; window.__NEXIVAN_SETTINGS__ = window.__VELTRANO_SETTINGS__; try { localStorage.setItem('veltrano_company_settings', JSON.stringify(${JSON.stringify(s)})); localStorage.setItem('nexivan_company_settings', JSON.stringify(${JSON.stringify(s)})); } catch(e){}</script>`;
   if (out.includes('</head>')) {
     out = out.replace('</head>', `${settingsScript}\n</head>`);
   }
@@ -184,9 +200,28 @@ async function renderHtmlWithDynamicSettings(html) {
   return out;
 }
 
+// In-memory HTML template cache to eliminate disk I/O on repeated visits
+const htmlTemplateCache = new Map();
+
+function getCachedRawHtml(filePath) {
+  try {
+    const stat = fs.statSync(filePath);
+    const mtime = stat.mtimeMs;
+    const cached = htmlTemplateCache.get(filePath);
+    if (cached && cached.mtime === mtime) {
+      return cached.content;
+    }
+    const content = fs.readFileSync(filePath, 'utf8');
+    htmlTemplateCache.set(filePath, { content, mtime });
+    return content;
+  } catch (err) {
+    return fs.readFileSync(filePath, 'utf8');
+  }
+}
+
 async function sendRenderedHtml(res, filePath) {
   try {
-    const raw = fs.readFileSync(filePath, 'utf8');
+    const raw = getCachedRawHtml(filePath);
     const rendered = await renderHtmlWithDynamicSettings(raw);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     return res.send(rendered);
@@ -247,7 +282,7 @@ app.post(['/track', '/track-shipment', '/tracking'], (req, res) => {
   ).trim();
 
   if (number) {
-    return res.redirect(303, `/track-shipment?tracking=${encodeURIComponent(number)}#nexivan-tracking-result-box`);
+    return res.redirect(303, `/track-shipment?tracking=${encodeURIComponent(number)}#veltrano-tracking-result-box`);
   }
   return res.redirect(303, '/track-shipment');
 });
@@ -301,9 +336,14 @@ app.get(['/track', '/track-shipment', '/tracking'], async (req, res) => {
     }
 
     // Inject into result container
-    const placeholder = '<div id="nexivan-tracking-result-box" class="nexivan-tracking-results-wrap" style="margin-top: 24px; min-height: 20px;"></div>';
-    if (html.includes(placeholder)) {
-      html = html.replace(placeholder, `<div id="nexivan-tracking-result-box" class="nexivan-tracking-results-wrap" style="margin-top: 24px; min-height: 20px;">${resultCardHTML}</div>`);
+    const vPlaceholder = '<div id="veltrano-tracking-result-box" class="veltrano-tracking-results-wrap" style="margin-top: 24px; min-height: 20px;"></div>';
+    const nPlaceholder = '<div id="nexivan-tracking-result-box" class="nexivan-tracking-results-wrap" style="margin-top: 24px; min-height: 20px;"></div>';
+    if (html.includes(vPlaceholder)) {
+      html = html.replace(vPlaceholder, `<div id="veltrano-tracking-result-box" class="veltrano-tracking-results-wrap" style="margin-top: 24px; min-height: 20px;">${resultCardHTML}</div>`);
+    } else if (html.includes(nPlaceholder)) {
+      html = html.replace(nPlaceholder, `<div id="veltrano-tracking-result-box" class="veltrano-tracking-results-wrap" style="margin-top: 24px; min-height: 20px;">${resultCardHTML}</div>`);
+    } else if (html.includes('id="veltrano-tracking-result-box"')) {
+      html = html.replace(/(<div[^>]*id="veltrano-tracking-result-box"[^>]*>)(<\/div>)/, `$1${resultCardHTML}$2`);
     } else if (html.includes('id="nexivan-tracking-result-box"')) {
       html = html.replace(/(<div[^>]*id="nexivan-tracking-result-box"[^>]*>)(<\/div>)/, `$1${resultCardHTML}$2`);
     }
@@ -360,7 +400,7 @@ app.get(['/contact', '/contacts'], async (req, res) => {
           </div>
           <div>
             <strong style="font-size: 18px; color: #065f46; display: block; margin-bottom: 4px;">Inquiry Sent Successfully!</strong>
-            <p style="margin: 0; font-size: 14px; color: #047857; line-height: 1.6;">Thank you for reaching out to Nexivan Logistics. Your message has been received and our dispatch support team will get back to you shortly.</p>
+            <p style="margin: 0; font-size: 14px; color: #047857; line-height: 1.6;">Thank you for reaching out to Veltrano Logistics. Your message has been received and our dispatch support team will get back to you shortly.</p>
           </div>
         </div>
       `;
@@ -411,13 +451,23 @@ blogSlugs.forEach((slug) => {
 
 // Case-insensitive asset aliases for logo files (prevents 404s on Linux production servers)
 app.get([
+  '/assets/images/veltrano-logo.svg',
+  '/assets/images/veltrano-logo-white.svg',
+  '/assets/images/Veltrano-logo.svg',
+  '/assets/images/Veltrano-logo-white.svg',
+  '/assets/images/nexivan-logo.svg',
+  '/assets/images/nexivan-logo-white.svg',
   '/assets/images/Nexivan-logo.svg',
   '/assets/images/Nexivan-logo-white.svg',
-  '/assets/images/nexivan-logo.svg',
-  '/assets/images/nexivan-logo-white.svg'
+  '/assets/images/veltrano-favicon.svg',
+  '/assets/images/nexivan-favicon.svg'
 ], (req, res) => {
-  const isWhite = req.path.toLowerCase().includes('white');
-  const fileName = isWhite ? 'nexivan-logo-white.svg' : 'nexivan-logo.svg';
+  const p = req.path.toLowerCase();
+  if (p.includes('favicon')) {
+    return res.sendFile(path.join(publicDir, 'assets/images/veltrano-favicon.svg'));
+  }
+  const isWhite = p.includes('white');
+  const fileName = isWhite ? 'veltrano-logo-white.svg' : 'veltrano-logo.svg';
   res.sendFile(path.join(publicDir, 'assets/images', fileName));
 });
 
@@ -462,7 +512,7 @@ async function startServer() {
     await initDB();
     app.listen(PORT, () => {
       console.log(`\n======================================================`);
-      console.log(`🚀 Nexivan Logistics Server running on port ${PORT}`);
+      console.log(`🚀 Veltrano Logistics Server running on port ${PORT}`);
       console.log(`🌐 Website Home:    http://localhost:${PORT}/`);
       console.log(`📦 Tracking Page:   http://localhost:${PORT}/track-shipment`);
       console.log(`✉️ Contact Page:    http://localhost:${PORT}/contacts`);

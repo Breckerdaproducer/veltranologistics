@@ -1,5 +1,5 @@
 /**
- * Nexivan Logistics - Live Telemetry Transit Map Engine v5.0.0
+ * Veltrano Logistics - Live Telemetry Transit Map Engine v5.0.0
  * Realistic Vector Vehicle SVGs & Classic Solid Palette (White BG, Bold Black Text, Primary Accents)
  *
  * Real SVG Assets:
@@ -9,7 +9,7 @@
  *             Container Ship (/assets/images/map/ship.svg), Delivery Van (/assets/images/map/van.svg)
  *  - Cargo: Realistic 3D Cardboard Freight Box on top (/assets/images/map/cargo-box.svg)
  *  - Corridor: Smooth Geodesic Great-Circle Bézier curved route with luminous halo & animated telemetry pulse
- *  - Popups: 100% Solid White cards with pure black text (#000000) and Nexivan primary blue (#0284c7)
+ *  - Popups: 100% Solid White cards with pure black text (#000000) and Veltrano primary blue (#059669)
  */
 
 (function () {
@@ -497,7 +497,7 @@
 
   /**
    * Self-Inject Classic Map CSS Rules
-   * Real Vehicle SVGs + Solid White Card Backgrounds + Bold Black Text (#000) + Nexivan Blue (#0284c7)
+   * Real Vehicle SVGs + Solid White Card Backgrounds + Bold Black Text (#000) + Veltrano Blue (#059669)
    */
   function ensureMapStylesInjected() {
     let style = document.getElementById('nex-telemetry-engine-styles');
@@ -520,7 +520,7 @@
         background-color: #ffffff !important;
         color: #000000 !important;
         border-radius: 10px !important;
-        border: 2px solid #0284c7 !important; /* Nexivan Primary Blue */
+        border: 2px solid #059669 !important; /* Veltrano Primary Blue */
         box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24), 0 4px 10px rgba(0, 0, 0, 0.12) !important;
         padding: 0 !important;
         overflow: hidden !important;
@@ -530,7 +530,7 @@
       .leaflet-popup-tip {
         background: #ffffff !important;
         background-color: #ffffff !important;
-        border: 1px solid #0284c7 !important;
+        border: 1px solid #059669 !important;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
         opacity: 1 !important;
       }
@@ -564,9 +564,9 @@
         z-index: 20 !important;
       }
       .leaflet-container a.leaflet-popup-close-button:hover {
-        background: #0284c7 !important;
+        background: #059669 !important;
         color: #ffffff !important;
-        border-color: #0284c7 !important;
+        border-color: #059669 !important;
       }
 
       /* Card Inside Popup: Solid White BG, Black Text, Primary Accents */
@@ -591,9 +591,9 @@
         padding: 10px 14px;
         background: #ffffff !important;
         background-color: #ffffff !important;
-        border-bottom: 2px solid #0284c7;
+        border-bottom: 2px solid #059669;
       }
-      .popup-header.vehicle { border-bottom: 2px solid #0284c7; }
+      .popup-header.vehicle { border-bottom: 2px solid #059669; }
       .popup-header.origin { border-bottom: 2px solid #d97706; }
       .popup-header.dest { border-bottom: 2px solid #059669; }
 
@@ -622,7 +622,7 @@
       }
       .popup-header-subtitle {
         font-size: 10.5px;
-        color: #0284c7 !important; /* PRIMARY COLOR ACCENT */
+        color: #059669 !important; /* PRIMARY COLOR ACCENT */
         font-weight: 700;
         display: flex;
         align-items: center;
@@ -705,8 +705,8 @@
       }
       .status-badge.vehicle {
         background: #f0f9ff !important;
-        color: #0284c7 !important;
-        border: 1.5px solid #0284c7 !important;
+        color: #059669 !important;
+        border: 1.5px solid #059669 !important;
       }
       .status-badge.dest {
         background: #ecfdf5 !important;
@@ -736,7 +736,7 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22) !important;
         z-index: 6 !important;
         opacity: 1 !important;
-        border: 2px solid #0284c7 !important;
+        border: 2px solid #059669 !important;
       }
       .nex-pin-badge.origin {
         border-color: #d97706 !important;
@@ -747,7 +747,7 @@
         color: #000000 !important;
       }
       .nex-pin-badge.vehicle {
-        border-color: #0284c7 !important;
+        border-color: #059669 !important;
         color: #000000 !important;
       }
 
@@ -767,8 +767,8 @@
         box-shadow: 0 0 5px #059669;
       }
       .badge-pip.vehicle {
-        background: #0284c7 !important;
-        box-shadow: 0 0 5px #0284c7;
+        background: #059669 !important;
+        box-shadow: 0 0 5px #059669;
         animation: nexPipPulse 1.4s infinite ease-in-out;
       }
 
@@ -870,7 +870,7 @@
         animation: nexRadarPingDest 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite 0.7s;
       }
       .nex-ground-radar.vehicle {
-        border: 2px solid rgba(2, 132, 199, 0.85);
+        border: 2px solid rgba(5, 150, 105, 0.85);
         animation: nexRadarPingVehicle 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
       }
 
@@ -953,7 +953,7 @@
         background-color: #ffffff !important;
         opacity: 1 !important;
         border: 2px solid #e5e7eb !important;
-        border-left: 5px solid #0284c7 !important;
+        border-left: 5px solid #059669 !important;
         border-radius: 8px !important;
         padding: 10px 14px !important;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18) !important;
@@ -966,7 +966,7 @@
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        color: #0284c7 !important;
+        color: #059669 !important;
         margin-bottom: 4px;
         display: flex;
         align-items: center;
@@ -1051,7 +1051,7 @@
         width: 32px !important;
         height: 32px !important;
         background-color: #ffffff !important;
-        color: #0284c7 !important;
+        color: #059669 !important;
         text-align: center !important;
         cursor: pointer !important;
         text-decoration: none !important;
@@ -1059,7 +1059,7 @@
       }
       .nex-recenter-btn:hover {
         background-color: #f0f9ff !important;
-        color: #0369a1 !important;
+        color: #047857 !important;
       }
 
       .nex-waypoint-beacon {
@@ -1074,10 +1074,10 @@
         left: 50%;
         width: 6px;
         height: 6px;
-        background: #38bdf8;
+        background: #34d399;
         border-radius: 50%;
         transform: translate(-50%, -50%);
-        box-shadow: 0 0 6px #38bdf8;
+        box-shadow: 0 0 6px #34d399;
       }
       .nex-waypoint-beacon .waypoint-pulse {
         position: absolute;
@@ -1091,11 +1091,11 @@
         animation: nexRadarPingVehicle 2.2s infinite cubic-bezier(0, 0.2, 0.8, 1);
       }
       .nex-waypoint-beacon.pending .waypoint-core {
-        background: #06b6d4;
-        box-shadow: 0 0 6px #06b6d4;
+        background: #10b981;
+        box-shadow: 0 0 6px #10b981;
       }
       .nex-waypoint-beacon.pending .waypoint-pulse {
-        border-color: rgba(6, 182, 212, 0.65);
+        border-color: rgba(16, 185, 129, 0.65);
       }
 
       @keyframes nexRadarPingOrigin {
@@ -1124,12 +1124,12 @@
   /**
    * Main Interactive Map Bootstrapper
    */
-  window.initNexivanTelemetryMap = function (containerId, data) {
+  window.initVeltranoTelemetryMap = function (containerId, data) {
     if (!data) return;
 
     if (typeof L === 'undefined') {
       setTimeout(function () {
-        window.initNexivanTelemetryMap(containerId, data);
+        window.initVeltranoTelemetryMap(containerId, data);
       }, 60);
       return;
     }
@@ -1268,7 +1268,7 @@
 
     // Draw Traversed Route (Origin -> Current Location) with interactive: false so mouse drag is never blocked
     const traversedHalo = L.polyline(traversedCurve, {
-      color: '#0284c7',
+      color: '#059669',
       weight: 12,
       opacity: 0.22,
       lineCap: 'round',
@@ -1278,7 +1278,7 @@
     }).addTo(map);
 
     const traversedCore = L.polyline(traversedCurve, {
-      color: '#0284c7',
+      color: '#059669',
       weight: 5,
       opacity: 0.95,
       lineCap: 'round',
@@ -1288,7 +1288,7 @@
     }).addTo(map);
 
     const traversedFlow = L.polyline(traversedCurve, {
-      color: '#38bdf8',
+      color: '#34d399',
       weight: 2.5,
       opacity: 0.95,
       dashArray: '8, 14',
@@ -1303,7 +1303,7 @@
     let pendingCore = null;
     if (progress < 100 && !statusLower.includes('delivered')) {
       pendingHalo = L.polyline(pendingCurve, {
-        color: '#06b6d4',
+        color: '#10b981',
         weight: 8,
         opacity: 0.16,
         lineCap: 'round',
@@ -1400,8 +1400,8 @@
             <span class="detail-val"><strong>${escapeHtml(shipperName)}</strong></span>
           </div>
           <div class="popup-detail-row">
-            <span class="detail-label"><i class="fas fa-barcode" style="color:#0284c7;"></i> AWB Waybill:</span>
-            <span class="detail-val" style="color: #0284c7; font-weight: 800;">${escapeHtml(trackingNo)}</span>
+            <span class="detail-label"><i class="fas fa-barcode" style="color:#059669;"></i> AWB Waybill:</span>
+            <span class="detail-val" style="color: #059669; font-weight: 800;">${escapeHtml(trackingNo)}</span>
           </div>
         </div>
       </div>
@@ -1458,7 +1458,7 @@
             <span class="detail-val"><strong>${escapeHtml(receiverName)}</strong></span>
           </div>
           <div class="popup-detail-row">
-            <span class="detail-label"><i class="fas fa-shield-alt" style="color:#0284c7;"></i> Transit Milestone:</span>
+            <span class="detail-label"><i class="fas fa-shield-alt" style="color:#059669;"></i> Transit Milestone:</span>
             <span class="status-badge dest">Destination Scheduled</span>
           </div>
         </div>
@@ -1544,11 +1544,11 @@
           </div>
           <div class="popup-divider"></div>
           <div class="popup-detail-row">
-            <span class="detail-label"><i class="fas fa-map-pin" style="color:#0284c7;"></i> Current Location:</span>
+            <span class="detail-label"><i class="fas fa-map-pin" style="color:#059669;"></i> Current Location:</span>
             <span class="detail-val"><strong>${escapeHtml(currentLoc)}</strong></span>
           </div>
           <div class="popup-detail-row">
-            <span class="detail-label"><i class="fas fa-tachometer-alt" style="color:#0284c7;"></i> Dispatch Status:</span>
+            <span class="detail-label"><i class="fas fa-tachometer-alt" style="color:#059669;"></i> Dispatch Status:</span>
             <span class="status-badge vehicle">${escapeHtml(status)} (${progress}%)</span>
           </div>
         </div>
@@ -1582,7 +1582,7 @@
           btn.title = 'Center on full transit corridor';
           btn.setAttribute('role', 'button');
           btn.setAttribute('aria-label', 'Center on full transit corridor');
-          btn.innerHTML = '<i class="fas fa-compress-arrows-alt" style="font-size:13px;color:#0284c7;line-height:30px;"></i>';
+          btn.innerHTML = '<i class="fas fa-compress-arrows-alt" style="font-size:13px;color:#059669;line-height:30px;"></i>';
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.on(btn, 'click', function (e) {
             L.DomEvent.preventDefault(e);

@@ -1,35 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 70" width="340" height="70" fill="none">
   <defs>
-    <linearGradient id="nexGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#06b6d4"/>
-      <stop offset="100%" stop-color="#0284c7"/>
+    <linearGradient id="velGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
     </linearGradient>
-    <linearGradient id="nexGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0284c7"/>
-      <stop offset="100%" stop-color="#0369a1"/>
+    <linearGradient id="velGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
     </linearGradient>
-    <linearGradient id="nexGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="100%" stop-color="#06b6d4"/>
+    <linearGradient id="velGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#10b981"/>
     </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0284c7" flood-opacity="0.25"/>
+    <filter id="velGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#059669" flood-opacity="0.28"/>
     </filter>
   </defs>
 
-  <!-- Modern Geometric 'N' & Logistics Cube Icon -->
-  <g transform="translate(6, 6)" filter="url(#glow)">
-    <!-- Left Pillar -->
-    <path d="M6 52 L6 14 L20 6 L20 44 Z" fill="url(#nexGrad1)"/>
-    <!-- Diagonal Dynamic Wing / Ribbon -->
-    <path d="M20 6 L44 38 L44 54 L20 22 Z" fill="url(#nexGrad3)"/>
-    <!-- Right Pillar -->
-    <path d="M44 22 L44 54 L58 46 L58 8 Z" fill="url(#nexGrad2)"/>
-    <!-- Speed/Forward Accent Dart -->
-    <path d="M25 25 L38 35 L28 35 Z" fill="#ffffff" opacity="0.9"/>
+  <!-- Modern Dynamic 'V' Emerald Crest -->
+  <g transform="translate(6, 6)" filter="url(#velGlow)">
+    <!-- Left Dynamic Arm -->
+    <path d="M8 12 L22 12 L35 50 L21 50 Z" fill="url(#velGrad1)"/>
+    <!-- Right Fast Ascending Arm -->
+    <path d="M29 50 L43 50 L58 12 L44 12 Z" fill="url(#velGrad2)"/>
+    <!-- Central Aerodynamic Winglet -->
+    <path d="M22 18 L33 42 L44 18 L33 26 Z" fill="url(#velGrad3)"/>
+    <!-- Forward Speed Accent Dart -->
+    <path d="M30 18 L36 32 L31 30 Z" fill="#ffffff" opacity="0.95"/>
   </g>
 
   <!-- Typography -->
-  <text x="78" y="38" font-family="'Segoe UI', -apple-system, Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="30" letter-spacing="1.5" fill="#0b1e36">NEXIVAN</text>
-  <text x="80" y="54" font-family="'Segoe UI', -apple-system, Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="11.5" letter-spacing="6" fill="#0284c7">LOGISTICS</text>
+  <text x="78" y="38" font-family="'Segoe UI', -apple-system, Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="29" letter-spacing="1.5" fill="#0f172a">VELTRANO</text>
+  <text x="80" y="54" font-family="'Segoe UI', -apple-system, Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="11.5" letter-spacing="6" fill="#059669">LOGISTICS</text>
 </svg>

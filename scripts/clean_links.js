@@ -119,7 +119,6 @@ function processDirectory(dirPath) {
 
 const targetDirs = [
   path.join(__dirname, '..', 'src', 'public'),
-  'C:\\Users\\Brecker-da-Producer\\Desktop\\React\\site-cloner\\Nexivan Logistics',
 ];
 
 for (const dir of targetDirs) {

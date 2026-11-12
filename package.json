@@ -1,7 +1,7 @@
 {
-  "name": "nexivan-backend",
+  "name": "veltrano-logistics",
   "version": "1.0.0",
-  "description": "Backend API and Admin Dashboard for Nexivan Logistics (Tracking, Search, Contact & Email Handling)",
+  "description": "Backend API and Admin Dashboard for Veltrano Logistics (Tracking, Search, Contact & Email Handling)",
   "main": "src/server.js",
   "scripts": {
     "start": "nodemon src/server.js",
@@ -13,12 +13,13 @@
     "tracking",
     "express",
     "postgresql",
-    "nexivan"
+    "veltrano"
   ],
-  "author": "Nexivan Logistics",
+  "author": "Veltrano Logistics",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "compression": "^1.8.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

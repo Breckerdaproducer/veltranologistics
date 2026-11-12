@@ -5,9 +5,9 @@
     </filter>
 
     <linearGradient id="cabGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="45%" stop-color="#0284c7"/>
-      <stop offset="100%" stop-color="#0369a1"/>
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="45%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
     </linearGradient>
 
     <linearGradient id="trailerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -48,7 +48,7 @@
     <line x1="80" y1="16" x2="80" y2="54" stroke="#e2e8f0" stroke-width="1.2"/>
 
     <!-- Trailer Livery Blue Stripe & Text -->
-    <rect x="10" y="32" width="82" height="7" fill="#0284c7"/>
+    <rect x="10" y="32" width="82" height="7" fill="#059669"/>
     <text x="51" y="27" font-family="system-ui, -apple-system, sans-serif" font-size="7.5" font-weight="900" fill="#0b1e36" text-anchor="middle" letter-spacing="1">NEXIVAN</text>
 
     <!-- Trailer Undercarriage Chassis -->
@@ -57,14 +57,14 @@
     <rect x="42" y="55" width="22" height="6" rx="2" fill="url(#metalGrad)" stroke="#475569" stroke-width="0.7"/>
 
     <!-- Truck Tractor Cab -->
-    <path d="M 88 56 L 88 22 L 102 22 L 118 36 L 126 38 C 129 38 130 40 130 44 L 130 56 Z" fill="url(#cabGrad)" stroke="#0369a1" stroke-width="1"/>
+    <path d="M 88 56 L 88 22 L 102 22 L 118 36 L 126 38 C 129 38 130 40 130 44 L 130 56 Z" fill="url(#cabGrad)" stroke="#047857" stroke-width="1"/>
 
     <!-- Aerodynamic Roof Fairing -->
-    <path d="M 88 22 L 88 15 C 96 15 104 18 106 22 Z" fill="#0284c7" stroke="#0369a1" stroke-width="0.8"/>
+    <path d="M 88 22 L 88 15 C 96 15 104 18 106 22 Z" fill="#059669" stroke="#047857" stroke-width="0.8"/>
 
     <!-- Windshield -->
     <path d="M 104 24 L 116 36 L 104 36 Z" fill="url(#glassGrad)"/>
-    <line x1="105" y1="26" x2="114" y2="35" stroke="#38bdf8" stroke-width="0.8" opacity="0.6"/>
+    <line x1="105" y1="26" x2="114" y2="35" stroke="#34d399" stroke-width="0.8" opacity="0.6"/>
 
     <!-- Side Window -->
     <rect x="92" y="25" width="10" height="11" rx="1.5" fill="url(#glassGrad)"/>

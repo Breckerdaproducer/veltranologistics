@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nexivan Logistics &mdash; Admin Management Portal</title>
+  <title>Veltrano Logistics &mdash; Admin Management Portal</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230284c7'/><path d='M30 50 L45 65 L75 35' stroke='white' stroke-width='10' fill='none'/></svg>">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -15,15 +15,15 @@
         extend: {
           colors: {
             brand: {
-              50: '#f0f9ff',
-              100: '#e0f2fe',
-              500: '#0ea5e9',
-              600: '#0284c7',
-              700: '#0369a1',
-              800: '#075985',
-              900: '#0c4a6e',
-              navy: '#0b1e36',
-              dark: '#081424'
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+              navy: '#0f172a',
+              dark: '#022c22'
             }
           }
         }
@@ -43,7 +43,7 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
-    .badge-in-transit { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge-in-transit { background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
     .badge-delivered { background-color: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
     .badge-out-for-delivery { background-color: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
     .badge-pending { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
@@ -56,10 +56,10 @@
   <div id="loginModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950 min-h-screen hidden p-4 overflow-y-auto">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 sm:p-8 border border-slate-200 max-h-[95vh] overflow-y-auto">
       <div class="text-center mb-8">
-        <div class="w-16 h-16 bg-gradient-to-tr from-brand-600 to-cyan-500 rounded-2xl flex items-center justify-center text-white mx-auto shadow-lg shadow-brand-500/30 mb-4">
+        <div class="w-16 h-16 bg-gradient-to-tr from-brand-600 to-emerald-500 rounded-2xl flex items-center justify-center text-white mx-auto shadow-lg shadow-brand-500/30 mb-4">
           <i class="fa-solid fa-shield-halved text-2xl"></i>
         </div>
-        <h2 class="text-2xl font-bold text-brand-navy">Nexivan Admin Portal</h2>
+        <h2 class="text-2xl font-bold text-brand-navy">Veltrano Admin Portal</h2>
         <p class="text-sm text-slate-500 mt-1">Sign in to manage shipments, trackings & messages</p>
       </div>
 
@@ -85,7 +85,7 @@
           </div>
         </div>
 
-        <button type="submit" id="loginBtn" class="w-full py-3.5 bg-gradient-to-r from-brand-600 to-cyan-600 hover:from-brand-700 hover:to-cyan-700 text-white font-semibold rounded-xl shadow-lg shadow-brand-600/30 transition duration-200 flex items-center justify-center gap-2">
+        <button type="submit" id="loginBtn" class="w-full py-3.5 bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-700 hover:to-cyan-700 text-white font-semibold rounded-xl shadow-lg shadow-brand-600/30 transition duration-200 flex items-center justify-center gap-2">
           <span>Sign In to Dashboard</span>
           <i class="fa-solid fa-arrow-right text-sm"></i>
         </button>
@@ -98,12 +98,12 @@
     <!-- Brand Logo Area -->
     <div class="h-20 flex items-center justify-between px-6 border-b border-slate-800/80">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-cyan-400 flex items-center justify-center text-white font-bold shadow-md shadow-brand-500/20">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-emerald-400 flex items-center justify-center text-white font-bold shadow-md shadow-brand-500/20">
           <i class="fa-solid fa-cubes-stacked text-lg"></i>
         </div>
         <div>
-          <h1 class="font-bold text-white tracking-wide text-base leading-tight">NEXIVAN</h1>
-          <p class="text-[10px] text-cyan-400 font-semibold uppercase tracking-widest">Logistics Admin</p>
+          <h1 class="font-bold text-white tracking-wide text-base leading-tight">VELTRANO</h1>
+          <p class="text-[10px] text-emerald-400 font-semibold uppercase tracking-widest">Logistics Admin</p>
         </div>
       </div>
       <button onclick="toggleMobileSidebar(true)" class="lg:hidden text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 focus:outline-none" aria-label="Close sidebar">
@@ -121,7 +121,7 @@
       <button onclick="switchTab('shipments')" id="nav-shipments" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:text-white hover:bg-slate-800/60">
         <i class="fa-solid fa-truck-fast w-5 text-center"></i>
         <span>Shipments</span>
-        <span id="badgeShipmentCount" class="ml-auto bg-brand-700/80 text-cyan-300 text-xs px-2 py-0.5 rounded-full font-semibold">2</span>
+        <span id="badgeShipmentCount" class="ml-auto bg-brand-700/80 text-emerald-300 text-xs px-2 py-0.5 rounded-full font-semibold">2</span>
       </button>
 
       <button onclick="switchTab('create-shipment')" id="nav-create-shipment" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:text-white hover:bg-slate-800/60">
@@ -142,17 +142,17 @@
 
       <div class="pt-4 pb-2 px-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Public Quick Links</div>
 
-      <a href="/track-shipment" target="_blank" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-cyan-300 hover:bg-slate-800/40 transition">
+      <a href="/track-shipment" target="_blank" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-emerald-300 hover:bg-slate-800/40 transition">
         <i class="fa-solid fa-arrow-up-right-from-square w-5 text-center"></i>
         <span>Track Consignment</span>
       </a>
 
-      <a href="/contacts" target="_blank" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-cyan-300 hover:bg-slate-800/40 transition">
+      <a href="/contacts" target="_blank" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-emerald-300 hover:bg-slate-800/40 transition">
         <i class="fa-solid fa-arrow-up-right-from-square w-5 text-center"></i>
         <span>Contact Page</span>
       </a>
 
-      <a href="/" target="_blank" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-cyan-300 hover:bg-slate-800/40 transition">
+      <a href="/" target="_blank" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-emerald-300 hover:bg-slate-800/40 transition">
         <i class="fa-solid fa-arrow-up-right-from-square w-5 text-center"></i>
         <span>Public Homepage</span>
       </a>
@@ -166,7 +166,7 @@
         </div>
         <div class="flex-1 min-w-0">
           <p id="adminUserFullName" class="text-sm font-semibold text-white truncate">Administrator</p>
-          <p id="adminUserEmail" class="text-xs text-slate-400 truncate">info@nexivanlogistics.com</p>
+          <p id="adminUserEmail" class="text-xs text-slate-400 truncate">info@veltranologistics.site</p>
         </div>
         <button onclick="handleLogout()" title="Sign Out" class="text-slate-400 hover:text-rose-400 p-2 rounded-lg hover:bg-slate-800 transition">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -234,11 +234,11 @@
             <div>
               <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">In Transit</p>
               <h3 id="statInTransit" class="text-2xl sm:text-3xl font-extrabold text-brand-700 mt-1">0</h3>
-              <p class="text-xs text-sky-600 mt-2 font-medium flex items-center gap-1">
+              <p class="text-xs text-emerald-600 mt-2 font-medium flex items-center gap-1">
                 <i class="fa-solid fa-route"></i> En route to destination
               </p>
             </div>
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 text-brand-600 flex items-center justify-center text-lg sm:text-xl">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 text-brand-600 flex items-center justify-center text-lg sm:text-xl">
               <i class="fa-solid fa-plane-departure"></i>
             </div>
           </div>
@@ -434,7 +434,7 @@
         <!-- Settings Header Banner -->
         <div class="bg-gradient-to-r from-brand-navy via-slate-900 to-brand-800 text-white p-6 rounded-2xl shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div class="space-y-1">
-            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/10 text-cyan-300 text-xs font-semibold uppercase tracking-wider">
+            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/10 text-emerald-300 text-xs font-semibold uppercase tracking-wider">
               <i class="fa-solid fa-globe"></i>
               <span>Global Site Contact Info</span>
             </div>
@@ -460,7 +460,7 @@
                 </label>
                 <div class="relative">
                   <i class="fa-solid fa-at absolute left-4 top-3.5 text-slate-400"></i>
-                  <input type="email" id="setCompanyEmail" required class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-600 focus:bg-white text-sm transition" placeholder="info@nexivanlogistics.com" />
+                  <input type="email" id="setCompanyEmail" required class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-600 focus:bg-white text-sm transition" placeholder="info@veltranologistics.site" />
                 </div>
                 <p class="text-[11px] text-slate-400 mt-1.5">Displayed on header, footer, contact cards, and receives new inquiry alerts.</p>
               </div>
@@ -545,14 +545,14 @@
                 <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Primary Contact Email</span>
                 <div class="flex items-center gap-2 text-xs text-brand-navy font-semibold truncate">
                   <i class="fa-solid fa-envelope text-brand-600"></i>
-                  <span id="prevEmail" class="truncate">info@nexivanlogistics.com</span>
+                  <span id="prevEmail" class="truncate">info@veltranologistics.site</span>
                 </div>
               </div>
             </div>
 
             <!-- Card 2: Quick Links to verify live site -->
             <div class="bg-gradient-to-br from-slate-900 to-brand-navy p-6 rounded-2xl text-white shadow-sm space-y-3">
-              <h4 class="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
                 <i class="fa-solid fa-bolt"></i>
                 <span>Instant Verification</span>
               </h4>
@@ -562,15 +562,15 @@
               <div class="space-y-2 pt-1">
                 <a href="/" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs text-slate-200 transition">
                   <span>Home (Header & Footer)</span>
-                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-cyan-400"></i>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-emerald-400"></i>
                 </a>
                 <a href="/contacts" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs text-slate-200 transition">
                   <span>Contacts (Call, WhatsApp, Email Cards)</span>
-                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-cyan-400"></i>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-emerald-400"></i>
                 </a>
                 <a href="/track-shipment" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs text-slate-200 transition">
                   <span>Track Consignment Page</span>
-                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-cyan-400"></i>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-emerald-400"></i>
                 </a>
               </div>
             </div>
@@ -1336,7 +1336,7 @@
             <span>Print Official Air Waybill (AWB)</span>
           </a>
 
-          <button type="button" id="successModalCheckpointsBtn" class="w-full py-2.5 px-4 bg-sky-50 hover:bg-sky-100 text-sky-700 font-semibold rounded-xl text-xs flex items-center justify-center gap-2 border border-sky-200/60 transition">
+          <button type="button" id="successModalCheckpointsBtn" class="w-full py-2.5 px-4 bg-emerald-50 hover:bg-sky-100 text-emerald-700 font-semibold rounded-xl text-xs flex items-center justify-center gap-2 border border-sky-200/60 transition">
             <i class="fa-solid fa-timeline"></i>
             <span>Add Checkpoints &amp; Transit Milestones</span>
           </button>
@@ -1547,7 +1547,7 @@
     // ----------------------------------------------------
     async function checkAuth() {
       try {
-        const token = localStorage.getItem('nexivan_token');
+        const token = localStorage.getItem('veltrano_token') || localStorage.getItem('nexivan_token');
         const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
 
         const res = await fetch(`${API_BASE}/auth/me`, { credentials: 'include', headers });
@@ -1586,7 +1586,7 @@
         const data = await res.json();
 
         if (data.success) {
-          localStorage.setItem('nexivan_token', data.token);
+          localStorage.setItem('veltrano_token', data.token); localStorage.setItem('nexivan_token', data.token);
           currentAdmin = data.admin;
           document.getElementById('adminUserFullName').textContent = data.admin.fullName || data.admin.username;
           document.getElementById('adminUserEmail').textContent = data.admin.email;
@@ -1605,14 +1605,14 @@
 
     async function handleLogout() {
       try {
-        const token = localStorage.getItem('nexivan_token');
+        const token = localStorage.getItem('veltrano_token') || localStorage.getItem('nexivan_token');
         await fetch(`${API_BASE}/auth/logout`, {
           method: 'POST',
           credentials: 'include',
           headers: token ? { 'Authorization': `Bearer ${token}` } : {}
         });
       } catch (e) {}
-      localStorage.removeItem('nexivan_token');
+      localStorage.removeItem('veltrano_token'); localStorage.removeItem('nexivan_token');
       currentAdmin = null;
       const uField = document.getElementById('loginUsername');
       const pField = document.getElementById('loginPassword');
@@ -1624,7 +1624,7 @@
     }
 
     function getAuthHeaders() {
-      const token = localStorage.getItem('nexivan_token');
+      const token = localStorage.getItem('veltrano_token') || localStorage.getItem('nexivan_token');
       return {
         'Content-Type': 'application/json',
         ...(token ? { 'Authorization': `Bearer ${token}` } : {})
@@ -2565,7 +2565,7 @@
       document.getElementById('msgBody').textContent = msg.message;
 
       const replyMailto = document.getElementById('msgReplyMailto');
-      replyMailto.href = `mailto:${msg.email}?subject=Re: Your inquiry to Nexivan Logistics&body=Hello ${msg.first_name},%0D%0A%0D%0AThank you for contacting Nexivan Logistics.%0D%0A%0D%0ARegarding your message:%0D%0A"${encodeURIComponent(msg.message)}"%0D%0A%0D%0A`;
+      replyMailto.href = `mailto:${msg.email}?subject=Re: Your inquiry to Veltrano Logistics&body=Hello ${msg.first_name},%0D%0A%0D%0AThank you for contacting Veltrano Logistics.%0D%0A%0D%0ARegarding your message:%0D%0A"${encodeURIComponent(msg.message)}"%0D%0A%0D%0A`;
 
       openModal('messageModal');
 
@@ -2658,7 +2658,7 @@
     }
 
     function updateSettingsPreview() {
-      const email = (document.getElementById('setCompanyEmail')?.value || '').trim() || 'info@nexivanlogistics.com';
+      const email = (document.getElementById('setCompanyEmail')?.value || '').trim() || 'info@veltranologistics.site';
       const phone = (document.getElementById('setCompanyPhone')?.value || '').trim() || '+1 (915) 217-3598';
       const whatsapp = (document.getElementById('setCompanyWhatsapp')?.value || '').trim() || '+1 (915) 217-3598';
 
@@ -2707,7 +2707,7 @@
           activeSettings = data.settings;
           // Store in localStorage for instant frontend hydration
           try {
-            localStorage.setItem('nexivan_company_settings', JSON.stringify(data.settings));
+            localStorage.setItem('veltrano_company_settings', JSON.stringify(data.settings)); localStorage.setItem('nexivan_company_settings', JSON.stringify(data.settings));
           } catch (storageErr) {}
 
           populateSettingsForm(data.settings);
@@ -2728,7 +2728,7 @@
 
     function resetSettingsDefaults() {
       if (!confirm('Reset contact settings to original defaults?')) return;
-      document.getElementById('setCompanyEmail').value = 'info@nexivanlogistics.com';
+      document.getElementById('setCompanyEmail').value = 'info@veltranologistics.site';
       document.getElementById('setCompanyPhone').value = '+1 (915) 217-3598';
       document.getElementById('setCompanyWhatsapp').value = '+1 (915) 217-3598';
       updateSettingsPreview();
