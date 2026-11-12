@@ -641,6 +641,7 @@ var wpcargoAJAXHandler = {"ajax_url":"/api/health","pageURL":"/track-shipment/",
 
 /* Results container */
 
+#veltrano-tracking-result-box,
 #nexivan-tracking-result-box {
   width: 100%;
   max-width: 100%;
@@ -650,6 +651,9 @@ var wpcargoAJAXHandler = {"ajax_url":"/api/health","pageURL":"/track-shipment/",
   scroll-margin-top: 100px;
 }
 
+#veltrano-tracking-result-box img,
+#veltrano-tracking-result-box iframe,
+#veltrano-tracking-result-box table,
 #nexivan-tracking-result-box img,
 #nexivan-tracking-result-box iframe,
 #nexivan-tracking-result-box table {
@@ -2376,11 +2380,13 @@ var wpcargoAJAXHandler = {"ajax_url":"/api/health","pageURL":"/track-shipment/",
   .nex-map-wrapper,
   .scroll-to-top,
   .pxl-anchor-button,
-  .e-con-parent:not(:has(#nexivan-tracking-result-box)) {
+  .e-con-parent:not(:has(#veltrano-tracking-result-box)):not(:has(#nexivan-tracking-result-box)) {
     display: none !important;
   }
 
   /* 3. Render only the official Air Waybill document */
+  #veltrano-tracking-result-box,
+  #veltrano-tracking-result-box *,
   #nexivan-tracking-result-box,
   #nexivan-tracking-result-box *,
   .nex-waybill-print-document,
@@ -2388,6 +2394,7 @@ var wpcargoAJAXHandler = {"ajax_url":"/api/health","pageURL":"/track-shipment/",
     visibility: visible !important;
   }
 
+  #veltrano-tracking-result-box,
   #nexivan-tracking-result-box {
     display: block !important;
     position: absolute !important;
@@ -2731,7 +2738,7 @@ var wpcargoAJAXHandler = {"ajax_url":"/api/health","pageURL":"/track-shipment/",
 }
 </style>
 <div class="wpcargo-track wpcargo">
-<form action="/track-shipment#nexivan-tracking-result-box" method="GET" name="wpcargo-track-form" id="nexivan-track-form">
+<form action="/track-shipment#veltrano-tracking-result-box" method="GET" name="wpcargo-track-form" id="veltrano-track-form">
 <input id="track_shipment_nonce" name="track_shipment_nonce" type="hidden" value="2d1fb770f9"/><input name="_wp_http_referer" type="hidden" value="/track-shipment/"/> <table class="track_form_table" id="wpcargo-track-table">
 <tr class="track_form_tr">
 <th class="track_form_th" colspan="2"><h4>Enter the Tracking or Consignment No.</h4></th>
@@ -2742,19 +2749,19 @@ var wpcargoAJAXHandler = {"ajax_url":"/api/health","pageURL":"/track-shipment/",
 </tr>
 </table>
 </form>
-<div id="nexivan-tracking-result-box" class="nexivan-tracking-results-wrap" style="margin-top: 24px; min-height: 20px;"></div>
-<script id="nexivan-autoscroll-script">
+<div id="veltrano-tracking-result-box" class="veltrano-tracking-results-wrap nexivan-tracking-results-wrap" style="margin-top: 24px; min-height: 20px; scroll-margin-top: 90px;"><a id="nexivan-tracking-result-box" style="display:block; position:relative; top:-90px; visibility:hidden;"></a></div>
+<script id="veltrano-autoscroll-script">
 (function() {
   var search = window.location.search || '';
-  if (!search) return;
+  var hash = window.location.hash || '';
   var params = new URLSearchParams(search);
   var trk = params.get('tracking') || params.get('wpcargo_tracking_number') || params.get('number') || params.get('num') || params.get('trk');
-  if (!trk) return;
+  if (!trk && !hash.includes('tracking-result-box')) return;
 
   function doScrollToResult() {
-    var box = document.getElementById('nexivan-tracking-result-box');
+    var box = document.getElementById('veltrano-tracking-result-box') || document.getElementById('nexivan-tracking-result-box');
     if (!box) return;
-    var target = box.querySelector('.nex-track-card') || box;
+    var target = box.querySelector('.nex-track-card') || box.querySelector('.nex-error-banner') || box;
     if (!target) return;
 
     var isMobile = window.innerWidth <= 640;
@@ -2763,27 +2770,34 @@ var wpcargoAJAXHandler = {"ajax_url":"/api/health","pageURL":"/track-shipment/",
     var currentY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     var targetY = Math.max(0, Math.floor(rect.top + currentY - headerOffset));
 
-    if (Math.abs(currentY - targetY) > 20) {
+    if (Math.abs(currentY - targetY) > 15) {
       try {
         window.scrollTo({ top: targetY, behavior: 'smooth' });
       } catch (e) {
         window.scrollTo(0, targetY);
       }
+      try {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (e) {}
     }
   }
 
   // Trigger scroll immediately during parse and at layout stabilization intervals
+  doScrollToResult();
   setTimeout(doScrollToResult, 60);
-  setTimeout(doScrollToResult, 250);
-  setTimeout(doScrollToResult, 600);
+  setTimeout(doScrollToResult, 180);
+  setTimeout(doScrollToResult, 350);
+  setTimeout(doScrollToResult, 700);
   setTimeout(doScrollToResult, 1200);
 
   if (document.readyState === 'complete') {
     doScrollToResult();
   } else {
     window.addEventListener('load', function() {
+      doScrollToResult();
       setTimeout(doScrollToResult, 80);
-      setTimeout(doScrollToResult, 400);
+      setTimeout(doScrollToResult, 350);
+      setTimeout(doScrollToResult, 800);
     });
   }
 
@@ -3165,6 +3179,7 @@ var chaty_settings = {"ajax_url":"/api/health","analytics":"0","capture_analytic
 <script id="pxl-tweenmax-js" src="assets/js/tweenmax.min_4714.js"></script>
 <script id="logiku-cursor-js" src="assets/js/cursor_5610.js"></script>
 <script id="pxl-cookie-js" src="assets/js/cookie_1110.js"></script>
+<script src="/assets/js/veltrano-api.js?v=2.2.0"></script>
 </body>
 </html>
 <!-- Page cached by LiteSpeed Cache 7.9.1 on 2026-09-13 07:31:34 -->

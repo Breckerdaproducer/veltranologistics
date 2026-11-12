@@ -266,7 +266,7 @@ app.get('/search', (req, res) => {
   if (lower.includes('contact') || lower.includes('support')) return res.redirect(303, '/contacts');
   if (lower.includes('about')) return res.redirect(303, '/about-us');
   if (lower.includes('service')) return res.redirect(303, '/services');
-  return res.redirect(303, `/track-shipment?tracking=${encodeURIComponent(q)}`);
+  return res.redirect(303, `/track-shipment?tracking=${encodeURIComponent(q)}#veltrano-tracking-result-box`);
 });
 
 // 4. Consignment Tracking - POST Handler (handles form submit seamlessly)
@@ -335,17 +335,13 @@ app.get(['/track', '/track-shipment', '/tracking'], async (req, res) => {
       resultCardHTML = renderTrackingNotFoundHTML(cleanNum);
     }
 
-    // Inject into result container
-    const vPlaceholder = '<div id="veltrano-tracking-result-box" class="veltrano-tracking-results-wrap" style="margin-top: 24px; min-height: 20px;"></div>';
-    const nPlaceholder = '<div id="nexivan-tracking-result-box" class="nexivan-tracking-results-wrap" style="margin-top: 24px; min-height: 20px;"></div>';
-    if (html.includes(vPlaceholder)) {
-      html = html.replace(vPlaceholder, `<div id="veltrano-tracking-result-box" class="veltrano-tracking-results-wrap" style="margin-top: 24px; min-height: 20px;">${resultCardHTML}</div>`);
-    } else if (html.includes(nPlaceholder)) {
-      html = html.replace(nPlaceholder, `<div id="veltrano-tracking-result-box" class="veltrano-tracking-results-wrap" style="margin-top: 24px; min-height: 20px;">${resultCardHTML}</div>`);
-    } else if (html.includes('id="veltrano-tracking-result-box"')) {
-      html = html.replace(/(<div[^>]*id="veltrano-tracking-result-box"[^>]*>)(<\/div>)/, `$1${resultCardHTML}$2`);
-    } else if (html.includes('id="nexivan-tracking-result-box"')) {
-      html = html.replace(/(<div[^>]*id="nexivan-tracking-result-box"[^>]*>)(<\/div>)/, `$1${resultCardHTML}$2`);
+    // Inject into result container (preserving both veltrano and legacy nexivan anchors for auto-scroll)
+    const replacementBox = `<div id="veltrano-tracking-result-box" class="veltrano-tracking-results-wrap nexivan-tracking-results-wrap" style="margin-top: 24px; min-height: 20px; scroll-margin-top: 90px;"><a id="nexivan-tracking-result-box" style="display:block; position:relative; top:-90px; visibility:hidden;"></a>${resultCardHTML}</div>`;
+
+    if (/<div[^>]*id="veltrano-tracking-result-box"[^>]*>[\s\S]*?<\/div>/i.test(html)) {
+      html = html.replace(/<div[^>]*id="veltrano-tracking-result-box"[^>]*>[\s\S]*?<\/div>/i, replacementBox);
+    } else if (/<div[^>]*id="nexivan-tracking-result-box"[^>]*>[\s\S]*?<\/div>/i.test(html)) {
+      html = html.replace(/<div[^>]*id="nexivan-tracking-result-box"[^>]*>[\s\S]*?<\/div>/i, replacementBox);
     }
 
     // Pre-fill input value

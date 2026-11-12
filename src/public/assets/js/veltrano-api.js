@@ -1343,7 +1343,7 @@
     // Expose global helper
     window.veltranoTrack = window.nexivanTrack = function (num) {
       if (!num) return;
-      if (document.querySelector('form[name="wpcargo-track-form"], #nexivan-track-form')) {
+      if (document.querySelector('form[name="wpcargo-track-form"], #veltrano-track-form, #nexivan-track-form')) {
         performTracking(num);
       } else {
         window.location.href = `/track-shipment?tracking=${encodeURIComponent(num)}`;
@@ -1685,7 +1685,7 @@
 
     searchForms.forEach((form) => {
       // Skip the dedicated tracking form on track-shipment page
-      if (form.id === 'nexivan-track-form' || form.getAttribute('name') === 'wpcargo-track-form' || form.closest('.wpcargo-track')) {
+      if (form.id === 'veltrano-track-form' || form.id === 'nexivan-track-form' || form.getAttribute('name') === 'wpcargo-track-form' || form.closest('.wpcargo-track')) {
         return;
       }
 
@@ -1975,7 +1975,7 @@
     // 5. Global Document-Level Fallback Interceptors
     // Guarantees no search form anywhere on the page can ever submit natively to an external site
     document.addEventListener('submit', function (e) {
-      if (e.target.closest('#nexivan-track-form, .wpcargo-track, [name="wpcargo-track-form"]')) return;
+      if (e.target.closest('#veltrano-track-form, #nexivan-track-form, .wpcargo-track, [name="wpcargo-track-form"]')) return;
       const searchForm = e.target.closest('form.pxl-search-form, form.search-form, form[role="search"], .pxl-header-mobile-search form');
       if (searchForm) {
         e.preventDefault();
