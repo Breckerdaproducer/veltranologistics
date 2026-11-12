@@ -506,6 +506,7 @@ var wpcargoAJAXHandler = {"ajax_url":"/api/health","pageURL":"/track-shipment/",
   }
 }
 
+#veltrano-track-form,
 #nexivan-track-form {
   width: 100%;
   max-width: 100%;
@@ -515,6 +516,28 @@ var wpcargoAJAXHandler = {"ajax_url":"/api/health","pageURL":"/track-shipment/",
   border: 1px solid #e2e8f0;
   border-radius: 16px;
   box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 640px) {
+  #veltrano-track-form,
+  #nexivan-track-form {
+    padding: 16px 14px;
+    border-radius: 14px;
+  }
+  #wpcargo-track-table .track_form_tr {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  #wpcargo-track-table .track_form_td,
+  #wpcargo-track-table .track_form_td.submit-track {
+    width: 100% !important;
+    flex: 1 1 100% !important;
+    margin-top: 0 !important;
+  }
+  #wpcargo-track-table button#submit_wpcargo {
+    width: 100% !important;
+  }
 }
 
 #wpcargo-track-table {
@@ -2372,6 +2395,7 @@ var wpcargoAJAXHandler = {"ajax_url":"/api/health","pageURL":"/track-shipment/",
   .elementor-element-1195,
   .elementor-location-header,
   .elementor-location-footer,
+  #veltrano-track-form,
   #nexivan-track-form,
   .wpcargo-track form,
   .nex-screen-only,
