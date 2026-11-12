@@ -1340,6 +1340,11 @@
             <i class="fa-solid fa-timeline"></i>
             <span>Add Checkpoints &amp; Transit Milestones</span>
           </button>
+
+          <button type="button" onclick="openShareShipmentModalFromSuccess()" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm shadow-emerald-600/20 transition">
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>Share Tracking Link (WhatsApp, Email, Copy)</span>
+          </button>
         </div>
 
         <div class="flex items-center justify-between gap-3 pt-3 border-t border-slate-100">
@@ -1349,6 +1354,89 @@
           <button type="button" onclick="closeModal('consignmentSuccessModal'); switchTab('shipments');" class="text-xs font-medium text-slate-500 hover:text-slate-800 py-2 px-3 rounded-lg hover:bg-slate-100 transition">
             Go to Shipments List &rarr;
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: SHARE SHIPMENT ==================== -->
+  <div id="shareShipmentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden p-3 sm:p-6">
+    <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md flex flex-col overflow-hidden border border-slate-100">
+      <button type="button" onclick="closeModal('shareShipmentModal')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition z-10" title="Close">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <!-- Modal Header -->
+      <div class="p-6 border-b border-slate-100 bg-gradient-to-b from-brand-50/70 to-white text-center">
+        <div class="w-14 h-14 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center mx-auto mb-3 shadow-inner">
+          <i class="fa-solid fa-share-nodes text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-extrabold text-slate-800">Share Consignment</h3>
+        <p class="text-xs text-slate-500 mt-1">Send tracking details and live tracking link to customers or partners.</p>
+        
+        <!-- Summary pill -->
+        <div class="mt-4 p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-center justify-between text-left">
+          <div>
+            <div class="text-[10px] uppercase font-bold text-slate-400">Tracking Code</div>
+            <div id="shareModalTrackingNo" class="font-mono font-extrabold text-base text-brand-700">TRK-000000</div>
+          </div>
+          <div class="text-right">
+            <div class="text-[10px] uppercase font-bold text-slate-400">Route</div>
+            <div id="shareModalRoute" class="text-xs font-semibold text-slate-700 max-w-[170px] truncate">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 space-y-4">
+        <!-- Direct URL Copy -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">Direct Tracking Link</label>
+          <div class="flex items-center gap-2">
+            <input type="text" id="shareModalUrlInput" readonly class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-700 select-all focus:outline-none focus:ring-2 focus:ring-brand-500">
+            <button type="button" onclick="copyShareUrl()" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm shadow-brand-600/20 whitespace-nowrap">
+              <i class="fa-regular fa-copy"></i>
+              <span id="shareModalCopyBtnText">Copy</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Share Channels -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-2">Share Via</label>
+          <div class="grid grid-cols-3 gap-2.5">
+            <!-- WhatsApp -->
+            <button type="button" onclick="shareToWhatsApp()" class="py-2.5 px-3 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/70 rounded-xl flex flex-col items-center justify-center gap-1 text-emerald-800 font-semibold text-xs transition">
+              <i class="fa-brands fa-whatsapp text-xl text-emerald-600"></i>
+              <span>WhatsApp</span>
+            </button>
+
+            <!-- Email -->
+            <button type="button" onclick="shareToEmail()" class="py-2.5 px-3 bg-sky-50 hover:bg-sky-100 border border-sky-200/70 rounded-xl flex flex-col items-center justify-center gap-1 text-sky-800 font-semibold text-xs transition">
+              <i class="fa-solid fa-envelope text-xl text-sky-600"></i>
+              <span>Email</span>
+            </button>
+
+            <!-- SMS -->
+            <button type="button" onclick="shareToSMS()" class="py-2.5 px-3 bg-amber-50 hover:bg-amber-100 border border-amber-200/70 rounded-xl flex flex-col items-center justify-center gap-1 text-amber-800 font-semibold text-xs transition">
+              <i class="fa-solid fa-comment-sms text-xl text-amber-600"></i>
+              <span>SMS</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Native Device Share Button (shown when supported) -->
+        <button type="button" id="shareModalNativeBtn" onclick="shareNativeDevice()" class="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition hidden">
+          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+          <span>Share via Device System Menu...</span>
+        </button>
+
+        <!-- Preview Link -->
+        <div class="pt-2 border-t border-slate-100">
+          <a id="shareModalPreviewBtn" href="#" target="_blank" class="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <span>Open Public Tracking Page</span>
+          </a>
         </div>
       </div>
     </div>
@@ -1740,6 +1828,7 @@
 
         const data = await res.json();
         if (!data.success) return;
+        loadedShipments = data.shipments || [];
 
         const tbody = document.getElementById('shipmentsTableBody');
         const countSummary = document.getElementById('shipmentCountSummary');
@@ -1759,6 +1848,9 @@
                 </a>
                 <button onclick="navigator.clipboard.writeText('${s.tracking_number}'); showToast('Copied tracking code to clipboard');" title="Copy tracking number" class="text-slate-400 hover:text-slate-600 text-xs">
                   <i class="fa-regular fa-copy"></i>
+                </button>
+                <button onclick="openShareShipmentModal(${s.id})" title="Share tracking link" class="text-slate-400 hover:text-emerald-600 text-xs">
+                  <i class="fa-solid fa-share-nodes"></i>
                 </button>
               </div>
               <div class="text-[11px] text-slate-400 font-sans font-normal mt-0.5">Created: ${new Date(s.created_at).toLocaleDateString()}</div>
@@ -1797,6 +1889,9 @@
             </td>
             <td class="px-6 py-4 text-right whitespace-nowrap">
               <div class="flex items-center justify-end gap-1.5">
+                <button onclick="openShareShipmentModal(${s.id})" title="Share Consignment Tracking Link" class="p-2 text-slate-400 hover:text-emerald-600 rounded-lg hover:bg-emerald-50 transition">
+                  <i class="fa-solid fa-share-nodes text-sm"></i>
+                </button>
                 <button onclick="openEditShipmentPage(${s.id})" title="Edit Consignment Details" class="p-2 text-slate-400 hover:text-brand-600 rounded-lg hover:bg-brand-50 transition">
                   <i class="fa-regular fa-pen-to-square text-sm"></i>
                 </button>
@@ -1810,6 +1905,173 @@
 
       } catch (err) {
         console.error('Failed to load shipments', err);
+      }
+    }
+
+    // ----------------------------------------------------
+    // CONSIGNMENT SHARING FUNCTIONALITY
+    // ----------------------------------------------------
+    let loadedShipments = [];
+    let currentShareShipment = null;
+
+    function openShareShipmentModal(idOrTracking) {
+      let s = null;
+      if (typeof idOrTracking === 'number') {
+        s = loadedShipments.find(item => item.id === idOrTracking);
+      } else if (typeof idOrTracking === 'string') {
+        s = loadedShipments.find(item => item.tracking_number === idOrTracking);
+      }
+      if (!s) return;
+      currentShareShipment = s;
+
+      const trackingNumber = s.tracking_number || '';
+      const trackingUrl = `${window.location.origin}/track-shipment?tracking=${encodeURIComponent(trackingNumber)}`;
+
+      const trackingEl = document.getElementById('shareModalTrackingNo');
+      const routeEl = document.getElementById('shareModalRoute');
+      const urlInput = document.getElementById('shareModalUrlInput');
+      const previewBtn = document.getElementById('shareModalPreviewBtn');
+      const nativeBtn = document.getElementById('shareModalNativeBtn');
+
+      if (trackingEl) trackingEl.textContent = trackingNumber;
+      if (routeEl) routeEl.textContent = `${s.origin || 'Origin'} → ${s.destination || 'Destination'}`;
+      if (urlInput) urlInput.value = trackingUrl;
+      if (previewBtn) previewBtn.href = trackingUrl;
+
+      if (nativeBtn) {
+        if (navigator.share) {
+          nativeBtn.classList.remove('hidden');
+        } else {
+          nativeBtn.classList.add('hidden');
+        }
+      }
+
+      openModal('shareShipmentModal');
+    }
+
+    function openShareShipmentModalFromSuccess() {
+      const tracking = document.getElementById('successModalTracking')?.textContent?.trim();
+      const route = document.getElementById('successModalRoute')?.textContent?.trim();
+      const cargo = document.getElementById('successModalCargo')?.textContent?.trim();
+      if (!tracking) return;
+
+      currentShareShipment = {
+        tracking_number: tracking,
+        origin: route ? route.split('→')[0]?.trim() : '',
+        destination: route ? route.split('→')[1]?.trim() : '',
+        product: cargo || '',
+        status: 'Registered'
+      };
+
+      const trackingUrl = `${window.location.origin}/track-shipment?tracking=${encodeURIComponent(tracking)}`;
+      const trackingEl = document.getElementById('shareModalTrackingNo');
+      const routeEl = document.getElementById('shareModalRoute');
+      const urlInput = document.getElementById('shareModalUrlInput');
+      const previewBtn = document.getElementById('shareModalPreviewBtn');
+      const nativeBtn = document.getElementById('shareModalNativeBtn');
+
+      if (trackingEl) trackingEl.textContent = tracking;
+      if (routeEl) routeEl.textContent = route || 'Direct Route';
+      if (urlInput) urlInput.value = trackingUrl;
+      if (previewBtn) previewBtn.href = trackingUrl;
+
+      if (nativeBtn) {
+        if (navigator.share) nativeBtn.classList.remove('hidden');
+        else nativeBtn.classList.add('hidden');
+      }
+
+      openModal('shareShipmentModal');
+    }
+
+    function copyShareUrl() {
+      const input = document.getElementById('shareModalUrlInput');
+      if (!input) return;
+
+      const textToCopy = input.value;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          showToast('Tracking link copied to clipboard!');
+          const btnText = document.getElementById('shareModalCopyBtnText');
+          if (btnText) {
+            btnText.textContent = 'Copied!';
+            setTimeout(() => { btnText.textContent = 'Copy'; }, 2000);
+          }
+        }).catch(() => {
+          fallbackCopy(input);
+        });
+      } else {
+        fallbackCopy(input);
+      }
+    }
+
+    function fallbackCopy(input) {
+      input.select();
+      input.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+      showToast('Tracking link copied to clipboard!');
+      const btnText = document.getElementById('shareModalCopyBtnText');
+      if (btnText) {
+        btnText.textContent = 'Copied!';
+        setTimeout(() => { btnText.textContent = 'Copy'; }, 2000);
+      }
+    }
+
+    function shareToWhatsApp() {
+      if (!currentShareShipment) return;
+      const s = currentShareShipment;
+      const trackingUrl = `${window.location.origin}/track-shipment?tracking=${encodeURIComponent(s.tracking_number)}`;
+      const routeStr = (s.origin && s.destination) ? `\n📍 *Route:* ${s.origin} ➔ ${s.destination}` : '';
+      const statusStr = s.status ? `\n📊 *Status:* ${s.status}` : '';
+      const message = `📦 *Veltrano Logistics - Shipment Tracking*\n\n` +
+        `*Tracking Code:* ${s.tracking_number}` +
+        routeStr +
+        statusStr +
+        `\n\n🔗 *Track your live consignment progress:*\n${trackingUrl}\n\n` +
+        `_Veltrano Logistics & Freight Services_`;
+
+      const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+    }
+
+    function shareToEmail() {
+      if (!currentShareShipment) return;
+      const s = currentShareShipment;
+      const trackingUrl = `${window.location.origin}/track-shipment?tracking=${encodeURIComponent(s.tracking_number)}`;
+      const subject = `Veltrano Logistics: Consignment Tracking #${s.tracking_number}`;
+      const body = `Hello,\n\nHere are the tracking details for shipment #${s.tracking_number} with Veltrano Logistics:\n\n` +
+        `Tracking Number: ${s.tracking_number}\n` +
+        (s.shipper_name ? `Shipper: ${s.shipper_name}\n` : '') +
+        (s.receiver_name ? `Receiver: ${s.receiver_name}\n` : '') +
+        (s.origin && s.destination ? `Route: ${s.origin} to ${s.destination}\n` : '') +
+        (s.status ? `Status: ${s.status}\n` : '') +
+        `\nYou can track the real-time telemetry and delivery status here:\n${trackingUrl}\n\n` +
+        `Best regards,\nVeltrano Logistics Team\nhttps://veltranologistics.site`;
+
+      window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    function shareToSMS() {
+      if (!currentShareShipment) return;
+      const s = currentShareShipment;
+      const trackingUrl = `${window.location.origin}/track-shipment?tracking=${encodeURIComponent(s.tracking_number)}`;
+      const text = `Veltrano Logistics Tracking #${s.tracking_number}: Track your shipment live at ${trackingUrl}`;
+      window.location.href = `sms:?&body=${encodeURIComponent(text)}`;
+    }
+
+    async function shareNativeDevice() {
+      if (!currentShareShipment || !navigator.share) return;
+      const s = currentShareShipment;
+      const trackingUrl = `${window.location.origin}/track-shipment?tracking=${encodeURIComponent(s.tracking_number)}`;
+      try {
+        await navigator.share({
+          title: `Shipment Tracking - ${s.tracking_number}`,
+          text: `Track shipment ${s.tracking_number} with Veltrano Logistics:`,
+          url: trackingUrl
+        });
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error('Error sharing:', err);
+        }
       }
     }
 
