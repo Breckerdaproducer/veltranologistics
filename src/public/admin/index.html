@@ -1454,6 +1454,8 @@
     let currentAdmin = null;
     let currentTab = 'dashboard';
     let currentMessageFilter = 'all';
+    let loadedShipments = [];
+    let currentShareShipment = null;
 
     // Pure JS Code 128 (Subtype B) Barcode Generator for Waybill & Consignment preview
     const CODE128_PATTERNS = [
@@ -1849,7 +1851,7 @@
                 <button onclick="navigator.clipboard.writeText('${s.tracking_number}'); showToast('Copied tracking code to clipboard');" title="Copy tracking number" class="text-slate-400 hover:text-slate-600 text-xs">
                   <i class="fa-regular fa-copy"></i>
                 </button>
-                <button onclick="openShareShipmentModal(${s.id})" title="Share tracking link" class="text-slate-400 hover:text-emerald-600 text-xs">
+                <button type="button" data-tracking="${s.tracking_number}" data-origin="${s.origin || ''}" data-destination="${s.destination || ''}" data-status="${s.status || ''}" data-shipper="${s.shipper_name || ''}" data-receiver="${s.receiver_name || ''}" onclick="triggerShipmentShare(this)" title="Share tracking link" class="text-slate-400 hover:text-emerald-600 text-xs">
                   <i class="fa-solid fa-share-nodes"></i>
                 </button>
               </div>
@@ -1889,7 +1891,7 @@
             </td>
             <td class="px-6 py-4 text-right whitespace-nowrap">
               <div class="flex items-center justify-end gap-1.5">
-                <button onclick="openShareShipmentModal(${s.id})" title="Share Consignment Tracking Link" class="p-2 text-slate-400 hover:text-emerald-600 rounded-lg hover:bg-emerald-50 transition">
+                <button type="button" data-tracking="${s.tracking_number}" data-origin="${s.origin || ''}" data-destination="${s.destination || ''}" data-status="${s.status || ''}" data-shipper="${s.shipper_name || ''}" data-receiver="${s.receiver_name || ''}" onclick="triggerShipmentShare(this)" title="Share Consignment Tracking Link" class="p-2 text-slate-400 hover:text-emerald-600 rounded-lg hover:bg-emerald-50 transition">
                   <i class="fa-solid fa-share-nodes text-sm"></i>
                 </button>
                 <button onclick="openEditShipmentPage(${s.id})" title="Edit Consignment Details" class="p-2 text-slate-400 hover:text-brand-600 rounded-lg hover:bg-brand-50 transition">
@@ -1911,22 +1913,53 @@
     // ----------------------------------------------------
     // CONSIGNMENT SHARING FUNCTIONALITY
     // ----------------------------------------------------
-    let loadedShipments = [];
-    let currentShareShipment = null;
+    async function triggerShipmentShare(target) {
+      let trackingNumber = '';
+      let origin = '';
+      let destination = '';
+      let status = '';
+      let shipper = '';
+      let receiver = '';
 
-    function openShareShipmentModal(idOrTracking) {
-      let s = null;
-      if (typeof idOrTracking === 'number') {
-        s = loadedShipments.find(item => item.id === idOrTracking);
-      } else if (typeof idOrTracking === 'string') {
-        s = loadedShipments.find(item => item.tracking_number === idOrTracking);
+      if (target && typeof target === 'object' && target.getAttribute) {
+        trackingNumber = target.getAttribute('data-tracking') || '';
+        origin = target.getAttribute('data-origin') || '';
+        destination = target.getAttribute('data-destination') || '';
+        status = target.getAttribute('data-status') || '';
+        shipper = target.getAttribute('data-shipper') || '';
+        receiver = target.getAttribute('data-receiver') || '';
+      } else if (typeof target === 'number' || typeof target === 'string') {
+        const s = (loadedShipments || []).find(item => item.id == target || item.tracking_number == target);
+        if (s) {
+          trackingNumber = s.tracking_number || '';
+          origin = s.origin || '';
+          destination = s.destination || '';
+          status = s.status || '';
+          shipper = s.shipper_name || '';
+          receiver = s.receiver_name || '';
+        } else if (typeof target === 'string') {
+          trackingNumber = target;
+        }
       }
-      if (!s) return;
-      currentShareShipment = s;
 
-      const trackingNumber = s.tracking_number || '';
+      if (!trackingNumber) {
+        showToast('Tracking number not found', 'error');
+        return;
+      }
+
+      currentShareShipment = {
+        tracking_number: trackingNumber,
+        origin: origin,
+        destination: destination,
+        status: status || 'In Transit',
+        shipper_name: shipper,
+        receiver_name: receiver
+      };
+
       const trackingUrl = `${window.location.origin}/track-shipment?tracking=${encodeURIComponent(trackingNumber)}`;
+      const routeStr = (origin && destination) ? `${origin} → ${destination}` : (origin || destination || 'Direct Route');
 
+      // Populate Modal elements
       const trackingEl = document.getElementById('shareModalTrackingNo');
       const routeEl = document.getElementById('shareModalRoute');
       const urlInput = document.getElementById('shareModalUrlInput');
@@ -1934,20 +1967,47 @@
       const nativeBtn = document.getElementById('shareModalNativeBtn');
 
       if (trackingEl) trackingEl.textContent = trackingNumber;
-      if (routeEl) routeEl.textContent = `${s.origin || 'Origin'} → ${s.destination || 'Destination'}`;
+      if (routeEl) routeEl.textContent = routeStr;
       if (urlInput) urlInput.value = trackingUrl;
       if (previewBtn) previewBtn.href = trackingUrl;
 
-      if (nativeBtn) {
-        if (navigator.share) {
-          nativeBtn.classList.remove('hidden');
-        } else {
-          nativeBtn.classList.add('hidden');
+      const shareData = {
+        title: `Veltrano Logistics - Tracking #${trackingNumber}`,
+        text: `Track consignment #${trackingNumber} (${routeStr}) with Veltrano Logistics:`,
+        url: trackingUrl
+      };
+
+      // 1. If Web Share API is available (Mobile/tablet/supported desktop), trigger native share dialog directly!
+      if (navigator.share) {
+        if (nativeBtn) nativeBtn.classList.remove('hidden');
+        try {
+          await navigator.share(shareData);
+          showToast('Tracking link shared successfully!');
+          return;
+        } catch (err) {
+          if (err.name === 'AbortError') {
+            // User cancelled native share sheet
+            return;
+          }
+          console.warn('Native share threw, opening modal:', err);
         }
+      } else {
+        if (nativeBtn) nativeBtn.classList.add('hidden');
       }
 
+      // 2. Automatically copy tracking URL to clipboard as an immediate convenience
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(trackingUrl).then(() => {
+          showToast('Copied tracking link to clipboard!');
+        }).catch(() => {});
+      }
+
+      // 3. Open dedicated Share Modal
       openModal('shareShipmentModal');
     }
+
+    // Alias for backward compatibility
+    const openShareShipmentModal = triggerShipmentShare;
 
     function openShareShipmentModalFromSuccess() {
       const tracking = document.getElementById('successModalTracking')?.textContent?.trim();
