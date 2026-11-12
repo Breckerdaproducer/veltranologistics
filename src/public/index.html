@@ -1825,31 +1825,6 @@ var chaty_settings = {"ajax_url":"/api/health","analytics":"0","capture_analytic
 </script>
 <script src="/assets/js/veltrano-api.js"></script>
 <script>
-// Resilient Navigation Close Handler
-(function() {
-  function closeNavDrawer() {
-    var menus = document.querySelectorAll('.pxl-header-menu, #pxl-nav-mobile, .pxl-header-menu-scroll');
-    menus.forEach(function(el) {
-      el.classList.remove('active');
-    });
-    document.body.classList.remove('body-overflow');
-  }
-
-  document.addEventListener('click', function(e) {
-    if (e.target.closest('.pxl-menu-close, .pxl-close, .pxl-header-menu-backdrop')) {
-      e.preventDefault();
-      e.stopPropagation();
-      closeNavDrawer();
-    }
-  }, true);
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' || e.keyCode === 27) {
-      closeNavDrawer();
-    }
-  });
-})();
-
 // Testimonial Referrals Auto-Slide Initializer & Watchdog
 (function() {
   function kickstartTestimonialSlider() {

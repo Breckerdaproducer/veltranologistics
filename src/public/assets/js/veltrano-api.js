@@ -2269,12 +2269,130 @@
     }, true);
   }
 
+  // -------------------------------------------------------------------------
+  // 5. Unified Mobile Navigation Controller (Touch & Click Support)
+  // -------------------------------------------------------------------------
+  function initMobileNavigation() {
+    let lastActionTime = 0;
+
+    function closeNavDrawer() {
+      const drawers = document.querySelectorAll('.pxl-header-menu, #pxl-nav-mobile, .pxl-header-menu-scroll, .pxl-header-menu-backdrop');
+      drawers.forEach(function (el) {
+        el.classList.remove('active');
+      });
+      document.body.classList.remove('body-overflow');
+    }
+
+    function openNavDrawer() {
+      const drawer = document.querySelector('.pxl-header-menu');
+      const navBtn = document.querySelector('#pxl-nav-mobile');
+      const backdrop = document.querySelector('.pxl-header-menu-backdrop');
+      if (drawer) drawer.classList.add('active');
+      if (navBtn) navBtn.classList.add('active');
+      if (backdrop) backdrop.classList.add('active');
+      document.body.classList.add('body-overflow');
+    }
+
+    function toggleNavDrawer() {
+      const drawer = document.querySelector('.pxl-header-menu');
+      const isOpen = drawer && drawer.classList.contains('active');
+      if (isOpen) {
+        closeNavDrawer();
+      } else {
+        openNavDrawer();
+      }
+    }
+
+    function handleEvent(e, actionFn) {
+      const now = Date.now();
+      if (now - lastActionTime < 250) return;
+      lastActionTime = now;
+      if (e) {
+        if (typeof e.preventDefault === 'function' && e.cancelable) e.preventDefault();
+        if (typeof e.stopPropagation === 'function') e.stopPropagation();
+      }
+      actionFn();
+    }
+
+    // Capture click and touchend on close elements
+    function onInteraction(e) {
+      const closeTarget = e.target.closest('.pxl-menu-close, .pxl-close, .pxl-header-menu-backdrop');
+      if (closeTarget) {
+        handleEvent(e, closeNavDrawer);
+        return;
+      }
+
+      const openTarget = e.target.closest('#pxl-nav-mobile, .pxl-anchor-mobile-menu, .pxl-nav-mobile-button');
+      if (openTarget) {
+        handleEvent(e, toggleNavDrawer);
+        return;
+      }
+
+      // Close drawer when regular menu links (non-dropdown) are clicked
+      const menuLink = e.target.closest('#pxl-header-mobile .pxl-menu-primary a:not(.pxl-menu-toggle):not([href="#"])');
+      if (menuLink && !menuLink.closest('.menu-item-has-children > a')) {
+        closeNavDrawer();
+      }
+    }
+
+    // Attach to window/document with capture phase for absolute reliability
+    ['click', 'touchend'].forEach(function (evtType) {
+      document.addEventListener(evtType, onInteraction, { capture: true, passive: false });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' || e.keyCode === 27) {
+        closeNavDrawer();
+      }
+    });
+
+    // Direct binding fallback to ensure zero dependency on event delegation
+    function setupDirectListeners() {
+      const closeButtons = document.querySelectorAll('.pxl-menu-close, .pxl-close, .pxl-header-menu-backdrop');
+      closeButtons.forEach(function (btn) {
+        btn.setAttribute('role', 'button');
+        btn.setAttribute('tabindex', '0');
+        btn.setAttribute('aria-label', 'Close Menu');
+        btn.style.touchAction = 'manipulation';
+        btn.style.cursor = 'pointer';
+
+        ['click', 'touchend'].forEach(function (evt) {
+          btn.addEventListener(evt, function (e) {
+            handleEvent(e, closeNavDrawer);
+          }, { passive: false });
+        });
+      });
+
+      const navToggles = document.querySelectorAll('#pxl-nav-mobile, .pxl-anchor-mobile-menu, .pxl-nav-mobile-button');
+      navToggles.forEach(function (btn) {
+        btn.setAttribute('role', 'button');
+        btn.setAttribute('tabindex', '0');
+        btn.setAttribute('aria-label', 'Toggle Navigation Menu');
+        btn.style.touchAction = 'manipulation';
+        btn.style.cursor = 'pointer';
+
+        ['click', 'touchend'].forEach(function (evt) {
+          btn.addEventListener(evt, function (e) {
+            handleEvent(e, toggleNavDrawer);
+          }, { passive: false });
+        });
+      });
+    }
+
+    setupDirectListeners();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupDirectListeners);
+    }
+  }
+
   // Initialize all components once DOM is loaded
   function init() {
     initCompanySettings();
     initTracking();
     initContactForm();
     initHeaderSearch();
+    initMobileNavigation();
   }
 
   // Run settings immediately if DOM is ready or partially ready

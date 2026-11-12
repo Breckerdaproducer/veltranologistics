@@ -1722,14 +1722,16 @@ sr7-txt {
 .pxl-header-menu .pxl-menu-close,
 .pxl-menu-close.pxl-close {
   display: flex !important;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 22px;
-  right: 22px;
-  width: 40px;
-  height: 40px;
-  background-color: rgba(5, 150, 105, 0.1) !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: absolute !important;
+  top: 18px !important;
+  right: 18px !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  background-color: rgba(5, 150, 105, 0.12) !important;
   border-radius: 50% !important;
   cursor: pointer !important;
   z-index: 999999 !important;
@@ -1737,12 +1739,19 @@ sr7-txt {
   opacity: 1 !important;
   visibility: visible !important;
   transition: all 0.25s ease !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
 }
 
 .pxl-header-menu .pxl-menu-close:hover,
-.pxl-menu-close.pxl-close:hover {
+.pxl-menu-close.pxl-close:hover,
+.pxl-header-menu .pxl-menu-close:active,
+.pxl-menu-close.pxl-close:active {
   background-color: #059669 !important;
-  transform: rotate(90deg);
+  transform: rotate(90deg) scale(1.05);
 }
 
 .pxl-header-menu .pxl-menu-close::before,
@@ -1756,12 +1765,17 @@ sr7-txt {
   background-color: #0f172a !important;
   border-radius: 2px !important;
   transition: background-color 0.25s ease !important;
+  pointer-events: none !important;
 }
 
 .pxl-header-menu .pxl-menu-close:hover::before,
 .pxl-header-menu .pxl-menu-close:hover::after,
 .pxl-menu-close.pxl-close:hover::before,
-.pxl-menu-close.pxl-close:hover::after {
+.pxl-menu-close.pxl-close:hover::after,
+.pxl-header-menu .pxl-menu-close:active::before,
+.pxl-header-menu .pxl-menu-close:active::after,
+.pxl-menu-close.pxl-close:active::before,
+.pxl-menu-close.pxl-close:active::after {
   background-color: #ffffff !important;
 }
 
@@ -1773,6 +1787,21 @@ sr7-txt {
 .pxl-header-menu .pxl-menu-close::after,
 .pxl-menu-close.pxl-close::after {
   transform: rotate(-45deg) !important;
+}
+
+.pxl-header-menu-backdrop {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.pxl-header-menu.active ~ .pxl-header-menu-backdrop,
+.pxl-header-menu-backdrop.active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  display: block !important;
 }
 
 /* Ensure drawer close button is never hidden by media queries */
